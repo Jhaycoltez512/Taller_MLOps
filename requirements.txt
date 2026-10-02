@@ -1,0 +1,18 @@
+# Datos y modelado
+pandas
+numpy
+pyarrow
+scikit-learn
+xgboost
+lightgbm
+
+# MLOps
+dvc
+mlflow
+prefect
+
+# Exploración y reportes
+matplotlib
+seaborn
+jupyter
+ipykernel

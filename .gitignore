@@ -1,0 +1,17 @@
+# Entorno
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Datos y artefactos: versionados con DVC (dvc add genera sus propios .gitignore)
+/models/
+
+# MLflow / Prefect locales
+mlruns/
+mlartifacts/
+mlflow.db
+.prefect/
+
+# Descargas parciales
+*.part
