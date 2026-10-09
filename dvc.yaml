@@ -1,0 +1,37 @@
+stages:
+  eda_raw:
+    cmd: python -m src.eda.raw_eda
+    deps:
+      - data/raw
+      - src/data/clean.py
+      - src/eda/raw_eda.py
+    outs:
+      - reports/eda_raw:
+          cache: false
+
+  preprocess:
+    cmd: python -m src.data.preprocess
+    deps:
+      - data/raw
+      - src/data/clean.py
+      - src/data/preprocess.py
+    params:
+      - preprocess
+    outs:
+      - data/processed
+    metrics:
+      - reports/data/preprocess.json:
+          cache: false
+
+  split:
+    cmd: python -m src.data.split
+    deps:
+      - data/processed
+      - src/data/split.py
+    params:
+      - split
+    outs:
+      - data/splits
+    metrics:
+      - reports/data/splits.json:
+          cache: false
