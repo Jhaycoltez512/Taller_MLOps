@@ -1,0 +1,4 @@
+conjunto,registros,pct_ataque,categorías
+training-set oficial,175341,68.06223302022916,10
+testing-set oficial,82332,55.06000097167566,10
+crudos (UNSW-NB15_1..4),2540047,12.648702957071267,10

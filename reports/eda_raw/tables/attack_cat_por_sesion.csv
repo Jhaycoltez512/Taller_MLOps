@@ -1,0 +1,11 @@
+attack_cat,sesión 1,sesión 2
+Normal,1064988,1153776
+Generic,7522,207959
+Exploits,5409,39116
+Fuzzers,5051,19195
+Reconnaissance,1759,12228
+DoS,1167,15186
+Backdoor,534,1795
+Analysis,526,2151
+Shellcode,223,1288
+Worms,24,150
