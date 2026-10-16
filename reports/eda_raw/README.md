@@ -4,7 +4,7 @@ Reporte generado por `src/eda/raw_eda.py` sobre `data/raw/UNSW-NB15_{1..4}.csv`
 (versión DVC `data/raw.dvc`). Reproducir con:
 
 ```bash
-python src/eda/raw_eda.py          # escribe reports/eda_raw/{README.md,figures/,tables/}
+python -m src.eda.raw_eda          # escribe reports/eda_raw/{README.md,figures/,tables/}
 ```
 
 Todas las cifras de este documento se calculan en el script; las tablas completas están en

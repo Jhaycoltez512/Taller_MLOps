@@ -1,0 +1,18 @@
+preprocess:
+  # Elimina filas con el mismo vector de features y la misma etiqueta (se conserva la más antigua).
+  dedup: true
+  # Elimina los vectores de features que aparecen con label 0 y 1 a la vez.
+  drop_conflicting: true
+
+split:
+  seed: 42
+  stratify: attack_cat
+  # Principal: sesión 1 -> train/val, sesión 2 -> test (evaluación temporal, con cambio de prior).
+  temporal:
+    train_session: 1
+    test_session: 2
+    val_size: 0.2
+  # Complementario: hold-out estratificado sobre ambas sesiones (sin drift).
+  holdout:
+    val_size: 0.15
+    test_size: 0.15

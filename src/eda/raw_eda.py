@@ -8,7 +8,7 @@ y escribe un reporte en Markdown con tablas y figuras:
     reports/eda_raw/figures/*.png
     reports/eda_raw/tables/*.csv
 
-Uso: python src/eda/raw_eda.py [--raw data/raw] [--out reports/eda_raw] [--sample 300000]
+Uso: python -m src.eda.raw_eda [--raw data/raw] [--out reports/eda_raw] [--sample 300000]
 """
 import argparse
 import sys
@@ -22,14 +22,9 @@ import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 import seaborn as sns  # noqa: E402
 
+from src.data.clean import CATEGORICAL, ID_COLS, RAW_FILES, TARGETS, clean_raw, load_raw  # noqa: E402
+
 SEED = 42
-SESSION_GAP = "6h"
-RAW_FILES = [f"UNSW-NB15_{i}.csv" for i in range(1, 5)]
-CATEGORICAL = ["proto", "state", "service"]
-ID_COLS = ["srcip", "sport", "dstip", "dsport", "Stime", "Ltime"]
-TARGETS = ["attack_cat", "Label"]
-# Normaliza las variantes de nombre de categoría que aparecen en los crudos.
-CAT_FIX = {"Backdoors": "Backdoor"}
 
 sns.set_theme(style="whitegrid", context="notebook")
 
@@ -53,15 +48,6 @@ def md_table(df, index=True, floatfmt="{:,.4g}"):
     for row in df.itertuples(index=False):
         lines.append("| " + " | ".join(fmt(v) for v in row) + " |")
     return "\n".join(lines)
-
-
-def parse_port(s):
-    """Puertos: enteros, hex ('0x000b') o '-'. Devuelve Int64 con NA para '-'."""
-    s = s.astype(str).str.strip()
-    out = pd.to_numeric(s, errors="coerce")
-    hexmask = s.str.startswith("0x")
-    out[hexmask] = s[hexmask].map(lambda x: int(x, 16))
-    return out.astype("Int64")
 
 
 class Report:
@@ -94,19 +80,7 @@ class Report:
         (self.out / "README.md").write_text("\n".join(self.parts), encoding="utf-8")
 
 
-# ---------------------------------------------------------------- carga
-def load_raw(raw):
-    feats = pd.read_csv(raw / "NUSW-NB15_features.csv", encoding="latin-1")
-    feats.columns = feats.columns.str.strip()
-    names = [n.strip().replace(" ", "") for n in feats["Name"]]
-    frames = []
-    for f in RAW_FILES:
-        d = pd.read_csv(raw / f, header=None, names=names, encoding="utf-8-sig", low_memory=False)
-        d["file"] = f
-        frames.append(d)
-    return pd.concat(frames, ignore_index=True), feats
-
-
+# ---------------------------------------------------------------- calidad
 def quality_and_clean(df):
     """Documenta las anomalías encontradas y devuelve (df_limpio, tabla_anomalías)."""
     raw_cat = df["attack_cat"]
@@ -132,20 +106,7 @@ def quality_and_clean(df):
         columns=["columna", "anomalía", "registros"],
     )
 
-    df = df.copy()
-    df["sport"] = parse_port(df["sport"])
-    df["dsport"] = parse_port(df["dsport"])
-    df["ct_ftp_cmd"] = pd.to_numeric(df["ct_ftp_cmd"].astype(str).str.strip(), errors="coerce")
-    cat = raw_cat.str.strip().replace(CAT_FIX)
-    df["attack_cat"] = cat.fillna("Normal")
-    for c in CATEGORICAL:
-        df[c] = df[c].astype(str).str.strip()
-    df["ts"] = pd.to_datetime(df["Stime"], unit="s", utc=True)
-    # La captura tiene dos sesiones separadas por ~26 días; se cortan por el hueco > 6 h.
-    order = df["ts"].sort_values()
-    session = (order.diff() > pd.Timedelta(SESSION_GAP)).cumsum() + 1
-    df["session"] = session.reindex(df.index)
-    return df, anomalies
+    return clean_raw(df), anomalies
 
 
 # ---------------------------------------------------------------- secciones
@@ -593,7 +554,7 @@ Reporte generado por `src/eda/raw_eda.py` sobre `data/raw/UNSW-NB15_{1..4}.csv`
 (versión DVC `data/raw.dvc`). Reproducir con:
 
 ```bash
-python src/eda/raw_eda.py          # escribe reports/eda_raw/{README.md,figures/,tables/}
+python -m src.eda.raw_eda          # escribe reports/eda_raw/{README.md,figures/,tables/}
 ```
 
 Todas las cifras de este documento se calculan en el script; las tablas completas están en
