@@ -9,7 +9,8 @@ Git (código), DVC (datos y modelos), MLflow (experimentos) y Prefect (pipeline)
 - [x] Descarga reproducible de los datos (`src/data/download.py`)
 - [x] Entorno Python y dependencias
 - [x] Datos crudos versionados con DVC (`data/raw.dvc`)
-- [ ] Exploración y estrategia de split
+- [x] Exploración de los datos crudos (EDA) y propuesta de split → [`reports/eda_raw/`](reports/eda_raw/README.md)
+- [ ] Preprocesamiento y split implementados (DVC)
 - [ ] Experimentos (MLflow)
 - [ ] Pipeline (Prefect)
 
@@ -35,3 +36,13 @@ Use `--only-splits` para bajar solo los splits oficiales de entrenamiento/prueba
 | `UNSW_NB15_training-set.csv` / `UNSW_NB15_testing-set.csv` | Splits oficiales (175.341 / 82.332 filas) |
 | `NUSW-NB15_GT.csv`, `UNSW-NB15_LIST_EVENTS.csv` | Ground truth y categorías de ataque |
 | `The UNSW-NB15 description.pdf` | Descripción oficial |
+
+## EDA de los crudos
+
+```bash
+python src/eda/raw_eda.py                 # ~1.5 min, requiere data/raw completo
+```
+
+Genera [`reports/eda_raw/README.md`](reports/eda_raw/README.md) con tablas (`tables/*.csv`) y
+figuras (`figures/*.png`): calidad de datos, distribución del objetivo, comportamiento temporal,
+variables categóricas, distribuciones, correlaciones y recomendaciones de preprocesamiento y split.

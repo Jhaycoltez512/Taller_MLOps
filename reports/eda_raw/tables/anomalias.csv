@@ -1,0 +1,12 @@
+columna,anomalía,registros
+sport,valor hexadecimal (0x...),6
+sport,valor '-',2
+dsport,valor hexadecimal (0x...),297
+dsport,valor '-',7
+ct_ftp_cmd,cadena en blanco ' ',1429879
+ct_flw_http_mthd,nulo,1348145
+is_ftp_login,nulo,1429879
+is_ftp_login,valor no binario (>1),186
+attack_cat,nulo (registros normales),2218764
+attack_cat,espacios alrededor del nombre,37762
+attack_cat,'Backdoors' (vs 'Backdoor'),534
