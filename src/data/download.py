@@ -5,6 +5,7 @@ Solo usa la biblioteca estándar. Escribe data/raw/ y un manifiesto con SHA-256
 para verificar la integridad de lo descargado.
 
 Uso: python src/data/download.py [--out data/raw] [--only-splits]
+     python src/data/download.py --only-splits --out data/original   # datos del taller
 """
 import argparse
 import hashlib
@@ -12,6 +13,7 @@ import http.cookiejar
 import json
 import sys
 import urllib.parse
+from datetime import datetime, timezone
 import urllib.request
 from pathlib import Path
 
@@ -86,7 +88,14 @@ def main():
             download(opener, f["ServerRelativeUrl"], dest, int(f["Length"]))
             manifest[f["Name"]] = {"bytes": int(f["Length"]), "sha256": sha256(dest)}
 
-    (out / "MANIFEST.json").write_text(json.dumps(manifest, indent=2, sort_keys=True))
+    record = {
+        "source": "https://research.unsw.edu.au/projects/unsw-nb15-dataset",
+        "share_link": SHARE_LINK,
+        "folders": folders,
+        "downloaded_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "files": manifest,
+    }
+    (out / "MANIFEST.json").write_text(json.dumps(record, indent=2, sort_keys=True) + "\n")
     print(f"{len(manifest)} archivos en {out}/")
 
 
