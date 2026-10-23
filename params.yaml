@@ -17,3 +17,6 @@ train:
     max_fpr: 0.05
     grid_step: 0.001
   reference_threshold: 0.5
+
+hub:
+  repo_id: yeico512/unsw-nb15-defiende-el-servidor

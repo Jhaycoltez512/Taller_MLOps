@@ -1,0 +1,24 @@
+# Selección de versiones. Se decide solo con validación y se congela antes de evaluar test.
+v1: exp01_logreg_base   # primera solución funcional: la referencia lineal
+
+# Regla para v2 sobre evidencias/experimentos.csv (métricas de validación con el umbral de cada
+# configuración): entre las configuraciones con FPR de validación <= max_val_fpr (objetivo del
+# 5 % más media unidad de tolerancia, porque el umbral se fijó en OOF de train), la de mayor
+# recall de ataque; empate (diferencia < tie_tolerance) -> el modelo más pequeño.
+rule:
+  metric: val_recall_attack
+  max_val_fpr: 0.055
+  tie_tolerance: 0.0
+  tie_break: model_megabytes
+
+change_vs_v1: >-
+  Cambio de modelo (regresión logística -> HistGradientBoosting con categóricas nativas) y, en
+  consecuencia, de preprocesamiento (one-hot + estandarización -> codificación ordinal) y de
+  umbral (0.773 -> 0.639). La regla del umbral no cambia (máximo recall con FPR <= 5 % en OOF).
+
+tradeoffs: >-
+  Mejora: recall de ataque de 0.896 a 0.956 con menor FPR (5.4 % -> 5.0 %); falsos negativos
+  caen a menos de la mitad, sobre todo en Fuzzers (55 % -> 74 % detectado), Shellcode y
+  Reconnaissance. Empeora: el modelo es menos interpretable que la regresión logística (sin
+  coeficientes por variable) y pesa 2.2 MB frente a 0.3 MB. Errores aceptados: ~5 % de conexiones normales
+  marcadas como ataque y ~26 % de Fuzzers sin detectar; Analysis sigue cerca de 86 %.
