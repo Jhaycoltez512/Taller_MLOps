@@ -1,0 +1,15 @@
+id: exp02_logreg_log1p
+family: logistic_regression
+hypothesis: >-
+  Las numéricas son muy asimétricas (bytes, cargas, tiempos); aplicar log1p antes de
+  estandarizar hace las relaciones más lineales y reduce la FPR de la regresión logística.
+change: Igual que exp01, con log1p sobre las numéricas antes de estandarizar.
+preprocessing:
+  categorical: onehot
+  onehot_min_frequency: 20
+  numeric: log1p_standard
+model:
+  type: logistic_regression
+  params:
+    C: 1.0
+    max_iter: 2000

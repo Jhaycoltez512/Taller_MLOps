@@ -1,0 +1,16 @@
+id: exp01_logreg_base
+family: logistic_regression
+hypothesis: >-
+  Un modelo lineal con one-hot de las categóricas y estandarización de las numéricas es una
+  referencia sencilla y suficiente para separar buena parte de los ataques, aunque con más
+  falsos positivos que un modelo no lineal.
+change: Referencia (primera configuración).
+preprocessing:
+  categorical: onehot
+  onehot_min_frequency: 20
+  numeric: standard
+model:
+  type: logistic_regression
+  params:
+    C: 1.0
+    max_iter: 2000

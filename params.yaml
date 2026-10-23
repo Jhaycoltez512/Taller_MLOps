@@ -6,3 +6,14 @@ data:
   stratify: attack_cat
   # Excluye de train/val los grupos de entradas idénticas con label 0 y 1 a la vez.
   drop_contradictory: true
+
+train:
+  seed: 42
+  # Umbral: se elige con predicciones out-of-fold sobre train (StratifiedGroupKFold, mismos grupos),
+  # sin usar validación ni test. Regla: máximo recall de ataque con FPR <= max_fpr.
+  cv_folds: 5
+  threshold:
+    rule: max_recall_at_fpr
+    max_fpr: 0.05
+    grid_step: 0.001
+  reference_threshold: 0.5
