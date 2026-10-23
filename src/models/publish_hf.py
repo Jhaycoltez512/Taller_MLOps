@@ -13,6 +13,8 @@ Pasos:
 
 Requiere HF_TOKEN con permiso de escritura.
 Uso: python -m src.models.publish_hf --version v1 --config-id exp01_logreg_base
+     # solo verificar y registrar una revisión ya publicada:
+     python -m src.models.publish_hf --version v1 --config-id exp01_logreg_base --revision <sha>
 """
 import argparse
 import json
@@ -224,10 +226,35 @@ Qué empeora y qué se acepta: {sel['tradeoffs']}
 """
 
 
+def download_check(repo_id, revision, files, src):
+    """Descarga la revisión por SHA en una caché vacía; compara archivos y predicciones de validación."""
+    with tempfile.TemporaryDirectory() as cache:
+        path = download_solution(repo_id, revision, cache_dir=cache)
+        remote = {name: sha256_file(path / name) for name in files}
+        assert files == remote, f"archivos descargados distintos: {files} vs {remote}"
+        model, config = load_solution(path)
+        sample = pd.read_parquet(PREPARED / "val.parquet").head(200)
+        local = pd.read_csv(src / "val_predictions.csv").head(200)
+        got = predict(model, config, sample)
+    max_diff = float(np.abs(got["score_attack"].to_numpy() - local["score_attack"].to_numpy()).max())
+    assert (got["row_id"].to_numpy() == local["row_id"].to_numpy()).all()
+    assert (got["y_pred"].to_numpy() == local["y_pred"].to_numpy()).all() and max_diff < 1e-9
+    return {
+        "cache": "temporal vacía",
+        "files_match": True,
+        "rows_compared": len(got),
+        "max_abs_score_diff": max_diff,
+        "labels_match": True,
+        "checked_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+    }
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--version", required=True, choices=["v1", "v2"])
     ap.add_argument("--config-id", required=True)
+    ap.add_argument("--revision", help="no subir: verificar y registrar esta revisión ya publicada")
+    ap.add_argument("--skip-download-check", action="store_true", help="registrar sin probar la descarga")
     args = ap.parse_args()
     repo_id = yaml.safe_load(open("params.yaml"))["hub"]["repo_id"]
 
@@ -242,7 +269,7 @@ def main():
     logged = mlflow.MlflowClient().get_run(run_id).data.tags["model_sha256"]
     assert model_sha == cfg["model_sha256"] == logged, "el modelo no coincide con el run de MLflow"
 
-    # 2. Revisión.
+    # 2. Revisión (contenido determinista: se puede regenerar para verificar).
     stage = Path("models/hf") / args.version
     if stage.exists():
         shutil.rmtree(stage)
@@ -255,31 +282,29 @@ def main():
     changes = changes_section(args.version, cfg, val)
     trusted = sio.get_untrusted_types(file=stage / "model.skops")
     (stage / "README.md").write_text(model_card(args.version, cfg, run_id, val, repo_id, changes, trusted))
+    files = {f.name: sha256_file(f) for f in sorted(stage.iterdir())}
 
     api = HfApi()
-    api.create_repo(repo_id, repo_type="model", exist_ok=True, private=False)
-    commit = api.upload_folder(
-        repo_id=repo_id,
-        folder_path=stage,
-        commit_message=f"{args.version}: {args.config_id} (run {run_id}, umbral {cfg['threshold']})",
-        delete_patterns=["*.skops", "*.json", "*.txt", "*.md"],
-    )
-    revision = commit.oid
-    api.create_tag(repo_id, tag=args.version, revision=revision, tag_message=f"{args.version}: {args.config_id}")
+    if args.revision:
+        revision = args.revision
+        assert api.model_info(repo_id, revision=args.version).sha == revision, "el tag no apunta a esa revisión"
+    else:
+        api.create_repo(repo_id, repo_type="model", exist_ok=True, private=False)
+        commit = api.upload_folder(
+            repo_id=repo_id,
+            folder_path=stage,
+            commit_message=f"{args.version}: {args.config_id} (run {run_id}, umbral {cfg['threshold']})",
+            delete_patterns=["*.skops", "*.json", "*.txt", "*.md"],
+        )
+        revision = commit.oid
+        api.create_tag(repo_id, tag=args.version, revision=revision, tag_message=f"{args.version}: {args.config_id}")
+    # El modelo de esa revisión en el Hub (hash LFS) es el mismo archivo local.
+    tree = {f.path: f for f in api.list_repo_tree(repo_id, revision=revision)}
+    assert tree["model.skops"].lfs.sha256 == model_sha, "el modelo en el Hub no coincide"
+    commit_date = next(c.created_at for c in api.list_repo_commits(repo_id) if c.commit_id == revision)
 
     # 3. Recuperación por SHA en una caché vacía.
-    with tempfile.TemporaryDirectory() as cache:
-        path = download_solution(repo_id, revision, cache_dir=cache)
-        files = {f.name: sha256_file(f) for f in sorted(stage.iterdir())}
-        remote = {name: sha256_file(path / name) for name in files}
-        assert files == remote, f"archivos descargados distintos: {files} vs {remote}"
-        model, config = load_solution(path)
-        sample = pd.read_parquet(PREPARED / "val.parquet").head(200)
-        local = pd.read_csv(src / "val_predictions.csv").head(200)
-        got = predict(model, config, sample)
-        max_diff = float(np.abs(got["score_attack"].to_numpy() - local["score_attack"].to_numpy()).max())
-        assert (got["row_id"].to_numpy() == local["row_id"].to_numpy()).all()
-        assert (got["y_pred"].to_numpy() == local["y_pred"].to_numpy()).all() and max_diff < 1e-9
+    check = None if args.skip_download_check else download_check(repo_id, revision, files, src)
 
     record = {
         "version": args.version,
@@ -289,9 +314,10 @@ def main():
         "hf_revision": revision,
         "hf_tag": args.version,
         "hf_revision_url": f"https://huggingface.co/{repo_id}/tree/{revision}",
-        "published_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "hf_commit_date": commit_date.isoformat(),
         "files_sha256": files,
         "model_sha256": model_sha,
+        "hub_lfs_sha256_matches": True,
         "threshold": cfg["threshold"],
         "mlflow_run_id": run_id,
         "git_training_commit": cfg["git_commit"],
@@ -299,17 +325,11 @@ def main():
         "dvc_original_md5": cfg["data.original_dvc_md5"],
         "dvc_prepared_md5": cfg["data.prepared_dvc_md5"],
         "val_metrics_operating": val["operating"],
-        "download_check": {
-            "cache": "temporal vacía",
-            "files_match": True,
-            "rows_compared": len(got),
-            "max_abs_score_diff": max_diff,
-            "labels_match": True,
-        },
+        "download_check": check or "pendiente: descarga por SHA no verificada todavía",
     }
     VERSIONS.mkdir(parents=True, exist_ok=True)
     (VERSIONS / f"{args.version}.json").write_text(json.dumps(record, indent=2, ensure_ascii=False) + "\n")
-    print(f"{args.version} -> {record['hf_revision_url']}")
+    print(f"{args.version} -> {record['hf_revision_url']} | descarga: {'ok' if check else 'pendiente'}")
 
 
 if __name__ == "__main__":
