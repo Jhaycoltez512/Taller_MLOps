@@ -45,5 +45,17 @@
     "max_abs_score_diff": 9.540979117872439e-17,
     "labels_match": true,
     "checked_at": "2026-10-23T20:49:59+00:00"
-  }
+  },
+  "card_updates": [
+    {
+      "hf_revision": "dd7f3fed3214b7a7d39b20fe067bacb926904c36",
+      "changed_files": [
+        "README.md"
+      ],
+      "readme_sha256": "12a81be3df7c245eeba4176c87888ff916a7932356512e6d21ddb6bb057ad284",
+      "model_sha256_at_revision": "562ba1bca9c762c4789a7dcdce4064508d7dc63b180e40b00e57eb302503489c",
+      "reason": "añade el resultado de la evaluación final en test",
+      "uploaded_at": "2026-10-23T20:54:29+00:00"
+    }
+  ]
 }
