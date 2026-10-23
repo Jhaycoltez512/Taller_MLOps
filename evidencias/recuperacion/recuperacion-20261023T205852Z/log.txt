@@ -1,0 +1,103 @@
+
+=== [2026-10-23T20:58:52Z] 0. Entorno ===
+Linux 6.18.44-fc-v153 x86_64
+Python 3.13.16
+git version 2.43.0
+carpeta: /tmp/claude-0/-home-user-Taller-MLOps/d70d6486-b3ce-55ec-9c72-a77e7d860fc6/scratchpad/recuperacion-20261023T205852Z
+
+=== [2026-10-23T20:58:52Z] 1. Código: clonar y fijar la revisión 91f71a216abc7802ca92faf7b9ac22c317e11b10 ===
+commit: 91f71a216abc7802ca92faf7b9ac22c317e11b10
+dependencias instaladas en 298 s
+Python 3.13.16
+3.67.1
+
+=== [2026-10-23T21:03:55Z] 2. Datos: dvc pull desde el almacenamiento entregado (caché DVC vacía) ===
+caché DVC inicial: vacía
+origin  https://dagshub.com/Jhaycoltez512/Taller_MLOps.dvc      (default)
+A       data/original/
+A       data/prepared/
+9 files fetched and 7 files added
+datos recuperados en 10 s
+Data and pipelines are up to date.
+734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559  data/original/UNSW_NB15_testing-set.csv
+bec7dd5ec88dc2a0ccc7a07879d338395ed7421750f675fd0339e07dfe0648fa  data/original/UNSW_NB15_training-set.csv
+70a092f264179184d7db2b263d4ea47089ca0d447d70a6bd738dfdcf927ff903  data/prepared/test.parquet
+eec9b6fff303a74b218c38f6bfea03237442ea91661e086a091fd8e139ba6243  data/prepared/train.parquet
+ae325b9bd299a130c4e7581f82e1c7e8f046cde81f3acca516c9b17fb868062c  data/prepared/val.parquet
+e736eabbae75776a8ba3b14a80e54e4e41326dfc188579756442d228ba1e54fc  data/prepared/split_assignment.csv
+{
+  "data/original/UNSW_NB15_training-set.csv": {
+    "sha256": "bec7dd5ec88dc2a0ccc7a07879d338395ed7421750f675fd0339e07dfe0648fa",
+    "matches_audit": true,
+    "matches_annex": true
+  },
+  "data/original/UNSW_NB15_testing-set.csv": {
+    "sha256": "734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559",
+    "matches_audit": true,
+    "matches_annex": true
+  },
+  "data/prepared/train.parquet": {
+    "sha256": "eec9b6fff303a74b218c38f6bfea03237442ea91661e086a091fd8e139ba6243",
+    "matches_audit": true
+  },
+  "data/prepared/val.parquet": {
+    "sha256": "ae325b9bd299a130c4e7581f82e1c7e8f046cde81f3acca516c9b17fb868062c",
+    "matches_audit": true
+  },
+  "data/prepared/test.parquet": {
+    "sha256": "70a092f264179184d7db2b263d4ea47089ca0d447d70a6bd738dfdcf927ff903",
+    "matches_audit": true
+  },
+  "sample_matches_recovered_val": true
+}
+DATOS OK
+
+=== [2026-10-23T21:04:09Z] 3-4. Modelos: descarga por SHA completo y predicción sobre la muestra fija ===
+v1 -> yeico512/unsw-nb15-defiende-el-servidor@896ee3984613e60d2af1c5297163524216fec34b
+Fetching 6 files:   0%|          | 0/6 [00:00<?, ?it/s]Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Fetching 6 files:  17%|█▋        | 1/6 [00:00<00:01,  4.63it/s]Fetching 6 files:  33%|███▎      | 2/6 [00:00<00:00,  4.08it/s]Fetching 6 files: 100%|██████████| 6/6 [00:01<00:00,  4.40it/s]Fetching 6 files: 100%|██████████| 6/6 [00:01<00:00,  4.38it/s]
+30 filas | v1 | umbral 0.773 | modelo sha256 feb7d024b424fc072332e603ac394024bd7f297f2a2b2ab68b5630a2503d1771 -> /tmp/claude-0/-home-user-Taller-MLOps/d70d6486-b3ce-55ec-9c72-a77e7d860fc6/scratchpad/recuperacion-20261023T205852Z/resultado/recuperado_v1.csv
+v2 -> yeico512/unsw-nb15-defiende-el-servidor@424eef599abdce7630cfc369505487755b9763f4
+Fetching 6 files:   0%|          | 0/6 [00:00<?, ?it/s]Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Fetching 6 files:  17%|█▋        | 1/6 [00:00<00:01,  4.22it/s]Fetching 6 files:  33%|███▎      | 2/6 [00:00<00:00,  5.19it/s]Fetching 6 files:  83%|████████▎ | 5/6 [00:00<00:00, 12.55it/s]Fetching 6 files: 100%|██████████| 6/6 [00:01<00:00,  3.84it/s]
+30 filas | v2 | umbral 0.639 | modelo sha256 562ba1bca9c762c4789a7dcdce4064508d7dc63b180e40b00e57eb302503489c -> /tmp/claude-0/-home-user-Taller-MLOps/d70d6486-b3ce-55ec-9c72-a77e7d860fc6/scratchpad/recuperacion-20261023T205852Z/resultado/recuperado_v2.csv
+feb7d024b424fc072332e603ac394024bd7f297f2a2b2ab68b5630a2503d1771  /tmp/claude-0/-home-user-Taller-MLOps/d70d6486-b3ce-55ec-9c72-a77e7d860fc6/scratchpad/recuperacion-20261023T205852Z/hf-cache/models--yeico512--unsw-nb15-defiende-el-servidor/snapshots/896ee3984613e60d2af1c5297163524216fec34b/model.skops
+562ba1bca9c762c4789a7dcdce4064508d7dc63b180e40b00e57eb302503489c  /tmp/claude-0/-home-user-Taller-MLOps/d70d6486-b3ce-55ec-9c72-a77e7d860fc6/scratchpad/recuperacion-20261023T205852Z/hf-cache/models--yeico512--unsw-nb15-defiende-el-servidor/snapshots/424eef599abdce7630cfc369505487755b9763f4/model.skops
+
+=== [2026-10-23T21:04:18Z] 5. Comparación con las salidas guardadas ===
+98a0667be879d825e15dc66c318c30da16715e88121ec6fae7d68f4ec4c35cd4  /tmp/claude-0/-home-user-Taller-MLOps/d70d6486-b3ce-55ec-9c72-a77e7d860fc6/scratchpad/recuperacion-20261023T205852Z/resultado/entrada.csv
+a1a8212b43f9f7f0ceb43ec42b5d53ddf4ec38b4e59623263d5382e95abb6dae  /tmp/claude-0/-home-user-Taller-MLOps/d70d6486-b3ce-55ec-9c72-a77e7d860fc6/scratchpad/recuperacion-20261023T205852Z/resultado/esperado_v1.csv
+88e3d71d6b78324fae254b3b7ceed70ed7cf26013164753fcedeea637ab3df40  /tmp/claude-0/-home-user-Taller-MLOps/d70d6486-b3ce-55ec-9c72-a77e7d860fc6/scratchpad/recuperacion-20261023T205852Z/resultado/esperado_v2.csv
+db066bbf062b8b13ffebb3c357a4ff2a1f237ca716a8e6bc0bce0e3fc10093ea  /tmp/claude-0/-home-user-Taller-MLOps/d70d6486-b3ce-55ec-9c72-a77e7d860fc6/scratchpad/recuperacion-20261023T205852Z/resultado/recuperado_v1.csv
+e709465682a7594c7e69554cae2c7373bdd2eed08f919ef87f9fa65aeacebeca  /tmp/claude-0/-home-user-Taller-MLOps/d70d6486-b3ce-55ec-9c72-a77e7d860fc6/scratchpad/recuperacion-20261023T205852Z/resultado/recuperado_v2.csv
+{
+  "tolerance_abs_score": 1e-09,
+  "versions": {
+    "v1": {
+      "hf_revision": "896ee3984613e60d2af1c5297163524216fec34b",
+      "rows": 30,
+      "same_row_ids": true,
+      "labels_match": true,
+      "max_abs_score_diff": 1.1102230246251565e-16,
+      "within_tolerance": true,
+      "predicted_attacks": 24,
+      "recovered_file_sha256": "db066bbf062b8b13ffebb3c357a4ff2a1f237ca716a8e6bc0bce0e3fc10093ea",
+      "passed": true
+    },
+    "v2": {
+      "hf_revision": "424eef599abdce7630cfc369505487755b9763f4",
+      "rows": 30,
+      "same_row_ids": true,
+      "labels_match": true,
+      "max_abs_score_diff": 1.1102230246251565e-16,
+      "within_tolerance": true,
+      "predicted_attacks": 25,
+      "recovered_file_sha256": "e709465682a7594c7e69554cae2c7373bdd2eed08f919ef87f9fa65aeacebeca",
+      "passed": true
+    }
+  },
+  "passed": true
+}
+RECUPERACIÓN OK
+
+=== [2026-10-23T21:04:19Z] Fin: commit 91f71a216abc7802ca92faf7b9ac22c317e11b10, 327 s en total ===

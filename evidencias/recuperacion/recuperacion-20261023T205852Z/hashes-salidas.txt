@@ -1,0 +1,5 @@
+98a0667be879d825e15dc66c318c30da16715e88121ec6fae7d68f4ec4c35cd4  /tmp/claude-0/-home-user-Taller-MLOps/d70d6486-b3ce-55ec-9c72-a77e7d860fc6/scratchpad/recuperacion-20261023T205852Z/resultado/entrada.csv
+a1a8212b43f9f7f0ceb43ec42b5d53ddf4ec38b4e59623263d5382e95abb6dae  /tmp/claude-0/-home-user-Taller-MLOps/d70d6486-b3ce-55ec-9c72-a77e7d860fc6/scratchpad/recuperacion-20261023T205852Z/resultado/esperado_v1.csv
+88e3d71d6b78324fae254b3b7ceed70ed7cf26013164753fcedeea637ab3df40  /tmp/claude-0/-home-user-Taller-MLOps/d70d6486-b3ce-55ec-9c72-a77e7d860fc6/scratchpad/recuperacion-20261023T205852Z/resultado/esperado_v2.csv
+db066bbf062b8b13ffebb3c357a4ff2a1f237ca716a8e6bc0bce0e3fc10093ea  /tmp/claude-0/-home-user-Taller-MLOps/d70d6486-b3ce-55ec-9c72-a77e7d860fc6/scratchpad/recuperacion-20261023T205852Z/resultado/recuperado_v1.csv
+e709465682a7594c7e69554cae2c7373bdd2eed08f919ef87f9fa65aeacebeca  /tmp/claude-0/-home-user-Taller-MLOps/d70d6486-b3ce-55ec-9c72-a77e7d860fc6/scratchpad/recuperacion-20261023T205852Z/resultado/recuperado_v2.csv

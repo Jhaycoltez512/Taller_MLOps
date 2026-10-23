@@ -10,9 +10,9 @@ datos (DVC + DagsHub), experimentos (MLflow) y modelos (Hugging Face Hub).
 - [x] Datos originales versionados con DVC (`data/original.dvc`) y almacenados en DagsHub
 - [x] Auditoría, limpieza y particiones fijas (`dvc.yaml` → `evidencias/auditoria.json`)
 - [x] Cuatro configuraciones de dos familias en MLflow (`evidencias/experimentos.csv`)
-- [ ] Modelos v1/v2 en Hugging Face Hub
-- [ ] Selección congelada y evaluación única en test
-- [ ] Prueba de recuperación en entorno nuevo
+- [x] Modelos v1/v2 en Hugging Face Hub (`evidencias/versiones/`)
+- [x] Selección congelada y evaluación única en test (`evidencias/seleccion.json`, `evidencias/metricas-test.json`)
+- [x] Prueba de recuperación en entorno nuevo (`evidencias/recuperacion/`)
 - [ ] Informe y `entrega.md`
 
 ## Requisitos
