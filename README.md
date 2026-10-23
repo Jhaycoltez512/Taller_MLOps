@@ -9,7 +9,7 @@ datos (DVC + DagsHub), experimentos (MLflow) y modelos (Hugging Face Hub).
 
 - [x] Datos originales versionados con DVC (`data/original.dvc`) y almacenados en DagsHub
 - [x] Auditoría, limpieza y particiones fijas (`dvc.yaml` → `evidencias/auditoria.json`)
-- [ ] Cuatro configuraciones de dos familias en MLflow
+- [x] Cuatro configuraciones de dos familias en MLflow (`evidencias/experimentos.csv`)
 - [ ] Modelos v1/v2 en Hugging Face Hub
 - [ ] Selección congelada y evaluación única en test
 - [ ] Prueba de recuperación en entorno nuevo
@@ -90,6 +90,43 @@ reporta en la auditoría y no se eliminan.
 `evidencias/auditoria.json` (etapa `audit`) registra fuente, fecha de descarga, SHA-256, filas,
 columnas, tipos, clases, faltantes, duplicados, contradicciones, política de limpieza, variables
 usadas y excluidas, semilla, tamaños y huellas de las particiones, y cruces entre ellas.
+
+## Experimentos (MLflow)
+
+Cuatro configuraciones de dos familias, con las mismas particiones (`configs/experiments/`):
+
+| ID | Familia | Cambio | Umbral | Recall | Precision | FPR | Macro-F1 |
+|---|---|---|---|---|---|---|---|
+| exp01 | Regresión logística | Referencia: one-hot + estandarización | 0,773 | 0,896 | 0,972 | 5,4 % | 0,902 |
+| exp02 | Regresión logística | + `log1p` en numéricas | 0,774 | 0,913 | 0,975 | 5,1 % | 0,916 |
+| exp03 | Árboles | Random Forest, categóricas ordinales | 0,648 | 0,953 | 0,976 | 5,1 % | 0,945 |
+| exp04 | Árboles | HistGradientBoosting | 0,639 | 0,956 | 0,976 | 5,0 % | 0,948 |
+
+Métricas de validación con ataque (1) como clase positiva. Hipótesis, run ID, commit,
+referencias DVC, matriz de confusión, métricas con umbral 0,5 y conclusiones en
+`evidencias/experimentos.csv`; detección por categoría en `evidencias/errores_por_categoria.csv`.
+
+**Umbral.** Cada configuración elige su umbral con predicciones *out-of-fold* sobre train
+(`StratifiedGroupKFold`, 5 folds, mismos grupos que el split): máximo recall de ataque con
+FPR ≤ 5 % (`params.yaml`, sección `train`). Validación no interviene en el umbral y queda
+limpia para comparar. Regla de decisión: ataque si `score_attack >= umbral`.
+
+**Denominadores cero.** Si una razón tiene denominador 0 (por ejemplo precision sin
+predicciones positivas), vale 0,0 y su nombre queda en `undefined` dentro de las métricas.
+
+### Ejecutar un experimento
+
+```bash
+git status --porcelain                    # debe estar vacío: el run registra el commit
+python -m src.models.train --config configs/experiments/exp04_hist_gradient_boosting.yaml
+python -m src.models.export_mlflow        # evidencias/experimentos.csv y evidencias/mlflow/
+mlflow ui --backend-store-uri sqlite:///mlflow.db    # opcional: interfaz en http://127.0.0.1:5000
+```
+
+El seguimiento es local (`mlflow.db` y `mlruns/`, ignorados por Git). `evidencias/mlflow/`
+contiene la exportación de los cuatro runs (`runs.json` con parámetros, métricas y tags, y los
+artefactos de cada run) para consultarlos sin el servidor. El modelo de exp03 (52 MB) no se
+copia ahí; queda su SHA-256.
 
 ## Exploración complementaria
 

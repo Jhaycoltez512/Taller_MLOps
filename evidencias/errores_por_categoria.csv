@@ -1,0 +1,11 @@
+attack_cat,n_val,exp01_logreg_base,exp02_logreg_log1p,exp03_random_forest,exp04_hist_gradient_boosting
+Normal,11120,0.0544,0.0506,0.0505,0.0499
+Generic,8000,0.9971,0.9989,0.9998,0.9999
+Exploits,6679,0.941,0.9671,0.9898,0.9918
+Fuzzers,3528,0.5454,0.5493,0.7236,0.7401
+DoS,2453,0.9539,0.9706,0.9971,0.9963
+Reconnaissance,2099,0.8914,0.9652,0.9986,0.9981
+Analysis,400,0.8525,0.84,0.82,0.8575
+Backdoor,349,0.9284,0.957,1.0,1.0
+Shellcode,227,0.837,0.9295,0.9956,0.9912
+Worms,26,1.0,0.9615,1.0,1.0

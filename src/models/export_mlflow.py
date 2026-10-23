@@ -2,6 +2,7 @@
 
 Salida:
   evidencias/experimentos.csv                  una fila por configuración (último run de cada una)
+  evidencias/errores_por_categoria.csv         tasa de detección en validación por attack_cat
   evidencias/mlflow/runs.json                  info, parámetros, métricas y tags de esos runs
   evidencias/mlflow/<run_id>/                  artefactos relevantes: configuración, umbral, métricas,
                                                curva de umbral, predicciones de validación y modelo si
@@ -15,8 +16,10 @@ import shutil
 from pathlib import Path
 
 import mlflow
+import pandas as pd
 import yaml
 
+from src.data.schema import ATTACK_CAT, PREPARED
 from src.models.train import EXPERIMENT, TRACKING_URI
 
 OUT = Path("evidencias")
@@ -54,10 +57,25 @@ COLUMNS = {
 }
 
 
+def write_error_table(export, runs):
+    """Fracción de filas de validación marcadas como ataque, por attack_cat y configuración.
+
+    Para Normal es la tasa de falsos positivos; para las demás categorías, el recall.
+    """
+    val = pd.read_parquet(PREPARED / "val.parquet", columns=["row_id", ATTACK_CAT])
+    table = {}
+    for run_id, cid in zip(runs["run_id"], runs["tags.config_id"]):
+        pred = pd.read_csv(export / run_id / "model" / "val_predictions.csv").merge(val, on="row_id")
+        table[cid] = pred.groupby(ATTACK_CAT)["y_pred"].mean()
+    out = pd.DataFrame(table)
+    out.insert(0, "n_val", val[ATTACK_CAT].value_counts())
+    out.sort_values("n_val", ascending=False).round(4).to_csv(OUT / "errores_por_categoria.csv")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--max-model-mb", type=float, default=20)
-    ap.add_argument("--conclusions", default="configs/conclusiones.yaml")
+    ap.add_argument("--conclusions", default="evidencias/conclusiones_experimentos.yaml")
     args = ap.parse_args()
 
     mlflow.set_tracking_uri(TRACKING_URI)
@@ -107,6 +125,7 @@ def main():
             }
             model.unlink()
             (local / "model" / "model.skops.omitted.json").write_text(json.dumps(note, indent=2) + "\n")
+    write_error_table(export, runs)
     (export / "runs.json").write_text(json.dumps(records, indent=2, ensure_ascii=False) + "\n")
     print(f"{len(records)} runs -> {OUT / 'experimentos.csv'} y {export}/")
 

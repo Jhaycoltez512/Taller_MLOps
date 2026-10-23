@@ -1,0 +1,6 @@
+{
+  "file": "model/model.skops",
+  "omitted": "pesa 52.0 MB (> 20 MB)",
+  "sha256": "932c6940cbe932dc07b0e344b06b98211b68bd56740ee17809987ac27cdc68b8",
+  "where": "artefacto del run en el MLflow local (mlruns/); v1/v2 est\u00e1n en Hugging Face"
+}

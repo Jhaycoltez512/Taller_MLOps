@@ -1,0 +1,94 @@
+{
+  "id": "exp02_logreg_log1p",
+  "family": "logistic_regression",
+  "features": [
+    "dur",
+    "proto",
+    "service",
+    "state",
+    "spkts",
+    "dpkts",
+    "sbytes",
+    "dbytes",
+    "rate",
+    "sttl",
+    "dttl",
+    "sload",
+    "dload",
+    "sloss",
+    "dloss",
+    "sinpkt",
+    "dinpkt",
+    "sjit",
+    "djit",
+    "swin",
+    "stcpb",
+    "dtcpb",
+    "dwin",
+    "tcprtt",
+    "synack",
+    "ackdat",
+    "smean",
+    "dmean",
+    "trans_depth",
+    "response_body_len",
+    "ct_srv_src",
+    "ct_state_ttl",
+    "ct_dst_ltm",
+    "ct_src_dport_ltm",
+    "ct_dst_sport_ltm",
+    "ct_dst_src_ltm",
+    "is_ftp_login",
+    "ct_ftp_cmd",
+    "ct_flw_http_mthd",
+    "ct_src_ltm",
+    "ct_srv_dst",
+    "is_sm_ips_ports"
+  ],
+  "categorical": [
+    "proto",
+    "service",
+    "state"
+  ],
+  "excluded": [
+    "id",
+    "attack_cat",
+    "label"
+  ],
+  "positive_class": "1 = ataque",
+  "decision_rule": "ataque (1) si score_attack >= threshold; score_attack = predict_proba[:, 1]",
+  "threshold": 0.774,
+  "threshold_rule": {
+    "rule": "max_recall_at_fpr",
+    "max_fpr": 0.05,
+    "grid_step": 0.001,
+    "fitted_on": "predicciones out-of-fold de train",
+    "feasible": true
+  },
+  "seed": 42,
+  "git_commit": "fecc3296fb838bbc6ec8296959021f9fbeb70cc4",
+  "data.original_dvc_md5": "23b017bf013ca3cb801267d722c28c7a.dir",
+  "data.prepared_dvc_md5": "e2f660e3d42e641a595c423b0d2af0ed.dir",
+  "data.train_sha256": "eec9b6fff303a74b218c38f6bfea03237442ea91661e086a091fd8e139ba6243",
+  "data.val_sha256": "ae325b9bd299a130c4e7581f82e1c7e8f046cde81f3acca516c9b17fb868062c",
+  "model_file": "model.skops",
+  "model_sha256": "cd4e0fd917c38a9aeb855a823810eb1615dc95cef68e646214416eebc9b00be2",
+  "experiment_config": {
+    "id": "exp02_logreg_log1p",
+    "family": "logistic_regression",
+    "hypothesis": "Las numéricas son muy asimétricas (bytes, cargas, tiempos); aplicar log1p antes de estandarizar hace las relaciones más lineales y reduce la FPR de la regresión logística.",
+    "change": "Igual que exp01, con log1p sobre las numéricas antes de estandarizar.",
+    "preprocessing": {
+      "categorical": "onehot",
+      "onehot_min_frequency": 20,
+      "numeric": "log1p_standard"
+    },
+    "model": {
+      "type": "logistic_regression",
+      "params": {
+        "C": 1.0,
+        "max_iter": 2000
+      }
+    }
+  }
+}
