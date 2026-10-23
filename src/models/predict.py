@@ -51,7 +51,8 @@ def predict(model, config, df):
 
 def read_table(path):
     path = Path(path)
-    return pd.read_parquet(path) if path.suffix == ".parquet" else pd.read_csv(path)
+    # round_trip: los floats del CSV se leen bit a bit igual que se escribieron.
+    return pd.read_parquet(path) if path.suffix == ".parquet" else pd.read_csv(path, float_precision="round_trip")
 
 
 def main():
