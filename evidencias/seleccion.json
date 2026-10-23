@@ -1,0 +1,81 @@
+{
+  "version": "v2",
+  "status": "congelada",
+  "decided_with": "solo validación (evidencias/experimentos.csv); test no leído",
+  "config_id": "exp04_hist_gradient_boosting",
+  "mlflow_run_id": "98001a529d484e79a7f6b0cf95dd962d",
+  "model_sha256": "562ba1bca9c762c4789a7dcdce4064508d7dc63b180e40b00e57eb302503489c",
+  "threshold": 0.639,
+  "threshold_rule": "máximo recall de ataque con FPR <= 5 % en predicciones out-of-fold de train",
+  "decision_rule": "ataque (1) si score_attack >= threshold",
+  "git_training_commit": "fecc3296fb838bbc6ec8296959021f9fbeb70cc4",
+  "config_file": "configs/experiments/exp04_hist_gradient_boosting.yaml",
+  "dvc_original_md5": "23b017bf013ca3cb801267d722c28c7a.dir",
+  "dvc_prepared_md5": "e2f660e3d42e641a595c423b0d2af0ed.dir",
+  "selection_rule": {
+    "metric": "val_recall_attack",
+    "max_val_fpr": 0.055,
+    "tie_tolerance": 0.0,
+    "tie_break": "model_megabytes"
+  },
+  "reason": "Mayor recall de validación (0.9560) entre las configuraciones con FPR de validación <= 0.055; FPR 0.0499, macro-F1 0.9478.",
+  "candidates": [
+    {
+      "config_id": "exp01_logreg_base",
+      "run_id": "b1c856bd8de8457a94df5e64d12c0d58",
+      "threshold": 0.773,
+      "val_recall_attack": 0.8955010311013846,
+      "val_precision_attack": 0.972352968057396,
+      "val_fpr": 0.0544064748201438,
+      "val_macro_f1": 0.9021544156357,
+      "model_megabytes": 0.265005,
+      "eligible": true
+    },
+    {
+      "config_id": "exp02_logreg_log1p",
+      "run_id": "24ed358ea8a74591ae167e8a3b2fa14b",
+      "threshold": 0.774,
+      "val_recall_attack": 0.913303312150162,
+      "val_precision_attack": 0.9747125404240028,
+      "val_fpr": 0.0506294964028777,
+      "val_macro_f1": 0.9162533216100196,
+      "model_megabytes": 0.331575,
+      "eligible": true
+    },
+    {
+      "config_id": "exp03_random_forest",
+      "run_id": "ddb59e6bc0704c92a926b0b65070db8a",
+      "threshold": 0.648,
+      "val_recall_attack": 0.9525272505365936,
+      "val_precision_attack": 0.9757706402241862,
+      "val_fpr": 0.0505395683453237,
+      "val_macro_f1": 0.9449527766050958,
+      "model_megabytes": 51.965692,
+      "eligible": true
+    },
+    {
+      "config_id": "exp04_hist_gradient_boosting",
+      "run_id": "98001a529d484e79a7f6b0cf95dd962d",
+      "threshold": 0.639,
+      "val_recall_attack": 0.9560203695130676,
+      "val_precision_attack": 0.97615057367539,
+      "val_fpr": 0.049910071942446,
+      "val_macro_f1": 0.9477945279667308,
+      "model_megabytes": 2.161446,
+      "eligible": true
+    }
+  ],
+  "v1": {
+    "config_id": "exp01_logreg_base",
+    "mlflow_run_id": "b1c856bd8de8457a94df5e64d12c0d58",
+    "threshold": 0.773
+  },
+  "change_vs_v1": "Cambio de modelo (regresión logística -> HistGradientBoosting con categóricas nativas) y, en consecuencia, de preprocesamiento (one-hot + estandarización -> codificación ordinal) y de umbral (0.773 -> 0.639). La regla del umbral no cambia (máximo recall con FPR <= 5 % en OOF).",
+  "tradeoffs": "Mejora: recall de ataque de 0.896 a 0.956 con menor FPR (5.4 % -> 5.0 %); falsos negativos caen a menos de la mitad, sobre todo en Fuzzers (55 % -> 74 % detectado), Shellcode y Reconnaissance. Empeora: el modelo es menos interpretable que la regresión logística (sin coeficientes por variable) y pesa 2.2 MB frente a 0.3 MB. Errores aceptados: ~5 % de conexiones normales marcadas como ataque y ~26 % de Fuzzers sin detectar; Analysis sigue cerca de 86 %.",
+  "frozen_at": "2026-10-23T20:43:54+00:00",
+  "freeze_evidence": "commit Git que añade este archivo congelado (tag v2), anterior a evidencias/metricas-test.json; el test no se había leído al tomar la decisión",
+  "hf_repo_id": "yeico512/unsw-nb15-defiende-el-servidor",
+  "hf_revision": "424eef599abdce7630cfc369505487755b9763f4",
+  "hf_tag": "v2",
+  "hf_revision_url": "https://huggingface.co/yeico512/unsw-nb15-defiende-el-servidor/tree/424eef599abdce7630cfc369505487755b9763f4"
+}
