@@ -38,5 +38,12 @@
     "n": 34881,
     "undefined": []
   },
-  "download_check": "pendiente: descarga por SHA no verificada todavía"
+  "download_check": {
+    "cache": "temporal vacía",
+    "files_match": true,
+    "rows_compared": 200,
+    "max_abs_score_diff": 1.1102230246251565e-16,
+    "labels_match": true,
+    "checked_at": "2026-10-23T20:49:47+00:00"
+  }
 }
