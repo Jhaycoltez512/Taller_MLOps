@@ -1,0 +1,95 @@
+{
+  "version": "v2",
+  "question": "¿Por qué la FPR sube de ~5 % en validación a ~18 % en test?",
+  "attacker_ttl_values": [
+    62,
+    254
+  ],
+  "normal_traffic_by_ttl": {
+    "train": {
+      "normal_rows": 44484,
+      "share_attacker_ttl": 0.23325240535923028
+    },
+    "val": {
+      "normal_rows": 11120,
+      "share_attacker_ttl": 0.2360611510791367,
+      "fpr_attacker_ttl": 0.21104761904761904,
+      "fpr_other_ttl": 0.00011771630370806356,
+      "false_positives": 555,
+      "false_positives_with_attacker_ttl": 554
+    },
+    "test": {
+      "normal_rows": 37000,
+      "share_attacker_ttl": 0.5183243243243243,
+      "fpr_attacker_ttl": 0.3513922202523725,
+      "fpr_other_ttl": 0.0,
+      "false_positives": 6739,
+      "false_positives_with_attacker_ttl": 6739
+    }
+  },
+  "test_false_positives_by_service": {
+    "-": {
+      "normal_rows": 27375,
+      "false_positives": 5581,
+      "fpr": 0.20387214611872145
+    },
+    "http": {
+      "normal_rows": 4013,
+      "false_positives": 946,
+      "fpr": 0.2357338649389484
+    },
+    "ftp": {
+      "normal_rows": 758,
+      "false_positives": 209,
+      "fpr": 0.2757255936675462
+    },
+    "radius": {
+      "normal_rows": 2,
+      "false_positives": 2,
+      "fpr": 1.0
+    },
+    "dns": {
+      "normal_rows": 3068,
+      "false_positives": 1,
+      "fpr": 0.0003259452411994785
+    },
+    "ftp-data": {
+      "normal_rows": 949,
+      "false_positives": 0,
+      "fpr": 0.0
+    }
+  },
+  "test_false_positives_by_state": {
+    "FIN": {
+      "normal_rows": 24172,
+      "false_positives": 4336,
+      "fpr": 0.17938110210160516
+    },
+    "INT": {
+      "normal_rows": 4485,
+      "false_positives": 2384,
+      "fpr": 0.5315496098104794
+    },
+    "REQ": {
+      "normal_rows": 1707,
+      "false_positives": 15,
+      "fpr": 0.008787346221441126
+    },
+    "CON": {
+      "normal_rows": 6633,
+      "false_positives": 4,
+      "fpr": 0.0006030453791647821
+    },
+    "ACC": {
+      "normal_rows": 2,
+      "false_positives": 0,
+      "fpr": 0.0
+    },
+    "RST": {
+      "normal_rows": 1,
+      "false_positives": 0,
+      "fpr": 0.0
+    }
+  },
+  "conclusion": "En test, la fracción de tráfico normal con sttl 62/254 (típico de los equipos atacantes del banco de pruebas) pasa de ~23 % a ~52 %, y todos los falsos positivos están en ese grupo. El modelo aprendió el artefacto de TTL; el cambio de distribución del test, no un error de código, explica la mayor FPR. Modelo y umbral congelados no se modifican."
+}
