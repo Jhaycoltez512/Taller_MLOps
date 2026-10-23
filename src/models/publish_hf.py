@@ -153,7 +153,7 @@ Detección por categoría (para `Normal` es la tasa de falsos positivos):
 {changes}
 ## Evaluación final en test
 
-{"Pendiente: la versión elegida se evalúa una sola vez en test después de congelar la selección." if version == "v2" else "No aplica: según el enunciado, v1 se compara con v2 solo en validación."}
+{test_section(version)}
 
 ## Limitaciones
 
@@ -196,6 +196,78 @@ Desde el repositorio de código: `python -m src.models.predict --repo-id {repo_i
   detection systems. MilCIS 2015.
 - Código, datos y experimentos: [{GITHUB}]({GITHUB}).
 """
+
+
+def test_section(version):
+    if version == "v1":
+        return "No aplica: según el enunciado, v1 se compara con v2 solo en validación."
+    path = Path("evidencias/metricas-test.json")
+    if not path.exists():
+        return "Pendiente: la versión elegida se evalúa una sola vez en test después de congelar la selección."
+    t = json.loads(path.read_text())
+    a = json.loads(Path("evidencias/analisis-test.json").read_text())["normal_traffic_by_ttl"]
+    m, cm, v = t["metrics"], t["confusion_matrix"], t["validation_reference"]
+    return f"""Evaluación única de la versión congelada, el {t['evaluated_at'][:10]}.
+
+- Revisión evaluada: `{t['model']['hf_revision']}` (tag `{version}`), modelo SHA-256 `{t['model']['sha256']}`.
+  Esta sección se añadió después en un commit que solo cambia este README: el modelo no cambia.
+- Datos: `UNSW_NB15_testing-set.csv` completo, {t['dataset']['rows_evaluated']:,} filas, SHA-256 `{t['dataset']['sha256']}`.
+- Umbral {t['threshold']} (congelado); ataque si `score_attack >= {t['threshold']}`.
+
+| Métrica | Validación | Test |
+|---|---|---|
+| Recall ataque | {v['val_recall_attack']:.4f} | {m['recall_attack']:.4f} |
+| Precision ataque | {v['val_precision_attack']:.4f} | {m['precision_attack']:.4f} |
+| FPR | {pct(v['val_fpr'])} | {pct(m['fpr'])} |
+| Macro-F1 | {v['val_macro_f1']:.4f} | {m['macro_f1']:.4f} |
+
+Matriz de confusión en test: TP {cm['tp']:,} · FP {cm['fp']:,} · TN {cm['tn']:,} · FN {cm['fn']:,}.
+ROC-AUC {t['threshold_free_metrics']['roc_auc']:.4f} · PR-AUC {t['threshold_free_metrics']['pr_auc']:.4f}.
+
+**El resultado empeora en FPR y se conserva.** En test, el {pct(a['test']['share_attacker_ttl'])} del
+tráfico normal tiene `sttl` 62 o 254, valores típicos de los equipos atacantes del banco de
+pruebas (en train y validación: {pct(a['train']['share_attacker_ttl'])} y {pct(a['val']['share_attacker_ttl'])}).
+Todos los falsos positivos de test están en ese grupo (FPR {pct(a['test']['fpr_attacker_ttl'])}; en el
+resto, {pct(a['test']['fpr_other_ttl'])}). El modelo aprendió ese artefacto de TTL y el test tiene otra
+distribución de tráfico normal. Predicciones por fila y métricas recalculables en el repositorio
+de código (`evidencias/predicciones-test.csv`, `evidencias/metricas-test.json`)."""
+
+
+def update_card(version, config_id, repo_id):
+    """Sube solo el README.md regenerado; el tag sigue en la revisión evaluada."""
+    record_path = VERSIONS / f"{version}.json"
+    record = json.loads(record_path.read_text())
+    src = Path("models") / config_id
+    cfg = json.loads((src / "model_config.json").read_text())
+    val = json.loads((src / "val_metrics.json").read_text())
+    trusted = sio.get_untrusted_types(file=src / "model.skops")
+    card = model_card(version, cfg, record["mlflow_run_id"], val, repo_id, changes_section(version, cfg, val), trusted)
+    with tempfile.TemporaryDirectory() as tmp:
+        readme = Path(tmp) / "README.md"
+        readme.write_text(card)
+        readme_sha = sha256_file(readme)
+        api = HfApi()
+        commit = api.upload_file(
+            path_or_fileobj=str(readme),
+            path_in_repo="README.md",
+            repo_id=repo_id,
+            commit_message=f"{version}: model card con el resultado de test (modelo sin cambios)",
+        )
+    tree = {f.path: f for f in api.list_repo_tree(repo_id, revision=commit.oid)}
+    assert tree["model.skops"].lfs.sha256 == record["model_sha256"], "el modelo cambió"
+    assert api.model_info(repo_id, revision=version).sha == record["hf_revision"], "el tag se movió"
+    record.setdefault("card_updates", []).append(
+        {
+            "hf_revision": commit.oid,
+            "changed_files": ["README.md"],
+            "readme_sha256": readme_sha,
+            "model_sha256_at_revision": record["model_sha256"],
+            "reason": "añade el resultado de la evaluación final en test",
+            "uploaded_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        }
+    )
+    record_path.write_text(json.dumps(record, indent=2, ensure_ascii=False) + "\n")
+    print(f"{version}: model card actualizado en {commit.oid}; modelo sin cambios; tag en {record['hf_revision']}")
 
 
 def exp_path(config_id):
@@ -255,8 +327,12 @@ def main():
     ap.add_argument("--config-id", required=True)
     ap.add_argument("--revision", help="no subir: verificar y registrar esta revisión ya publicada")
     ap.add_argument("--skip-download-check", action="store_true", help="registrar sin probar la descarga")
+    ap.add_argument("--update-card", action="store_true", help="solo actualizar el model card (README.md)")
     args = ap.parse_args()
     repo_id = yaml.safe_load(open("params.yaml"))["hub"]["repo_id"]
+    if args.update_card:
+        update_card(args.version, args.config_id, repo_id)
+        return
 
     src = Path("models") / args.config_id
     cfg = json.loads((src / "model_config.json").read_text())
