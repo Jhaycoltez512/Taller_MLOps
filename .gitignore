@@ -15,3 +15,6 @@ mlflow.db
 
 # Descargas parciales
 *.part
+
+# Paquetes de entrega
+dist/

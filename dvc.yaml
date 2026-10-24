@@ -1,37 +1,24 @@
 stages:
-  eda_raw:
-    cmd: python -m src.eda.raw_eda
+  prepare:
+    cmd: python -m src.data.prepare
     deps:
-      - data/raw
-      - src/data/clean.py
-      - src/eda/raw_eda.py
-    outs:
-      - reports/eda_raw:
-          cache: false
-
-  preprocess:
-    cmd: python -m src.data.preprocess
-    deps:
-      - data/raw
-      - src/data/clean.py
-      - src/data/preprocess.py
+      - data/original
+      - src/data/schema.py
+      - src/data/prepare.py
     params:
-      - preprocess
+      - data
     outs:
-      - data/processed
-    metrics:
-      - reports/data/preprocess.json:
-          cache: false
+      - data/prepared
 
-  split:
-    cmd: python -m src.data.split
+  audit:
+    cmd: python -m src.data.audit
     deps:
-      - data/processed
-      - src/data/split.py
+      - data/original
+      - data/prepared
+      - src/data/schema.py
+      - src/data/audit.py
     params:
-      - split
+      - data
     outs:
-      - data/splits
-    metrics:
-      - reports/data/splits.json:
+      - evidencias/auditoria.json:
           cache: false

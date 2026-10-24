@@ -1,0 +1,95 @@
+{
+  "id": "exp04_hist_gradient_boosting",
+  "family": "tree_ensemble",
+  "features": [
+    "dur",
+    "proto",
+    "service",
+    "state",
+    "spkts",
+    "dpkts",
+    "sbytes",
+    "dbytes",
+    "rate",
+    "sttl",
+    "dttl",
+    "sload",
+    "dload",
+    "sloss",
+    "dloss",
+    "sinpkt",
+    "dinpkt",
+    "sjit",
+    "djit",
+    "swin",
+    "stcpb",
+    "dtcpb",
+    "dwin",
+    "tcprtt",
+    "synack",
+    "ackdat",
+    "smean",
+    "dmean",
+    "trans_depth",
+    "response_body_len",
+    "ct_srv_src",
+    "ct_state_ttl",
+    "ct_dst_ltm",
+    "ct_src_dport_ltm",
+    "ct_dst_sport_ltm",
+    "ct_dst_src_ltm",
+    "is_ftp_login",
+    "ct_ftp_cmd",
+    "ct_flw_http_mthd",
+    "ct_src_ltm",
+    "ct_srv_dst",
+    "is_sm_ips_ports"
+  ],
+  "categorical": [
+    "proto",
+    "service",
+    "state"
+  ],
+  "excluded": [
+    "id",
+    "attack_cat",
+    "label"
+  ],
+  "positive_class": "1 = ataque",
+  "decision_rule": "ataque (1) si score_attack >= threshold; score_attack = predict_proba[:, 1]",
+  "threshold": 0.639,
+  "threshold_rule": {
+    "rule": "max_recall_at_fpr",
+    "max_fpr": 0.05,
+    "grid_step": 0.001,
+    "fitted_on": "predicciones out-of-fold de train",
+    "feasible": true
+  },
+  "seed": 42,
+  "git_commit": "fecc3296fb838bbc6ec8296959021f9fbeb70cc4",
+  "data.original_dvc_md5": "23b017bf013ca3cb801267d722c28c7a.dir",
+  "data.prepared_dvc_md5": "e2f660e3d42e641a595c423b0d2af0ed.dir",
+  "data.train_sha256": "eec9b6fff303a74b218c38f6bfea03237442ea91661e086a091fd8e139ba6243",
+  "data.val_sha256": "ae325b9bd299a130c4e7581f82e1c7e8f046cde81f3acca516c9b17fb868062c",
+  "model_file": "model.skops",
+  "model_sha256": "562ba1bca9c762c4789a7dcdce4064508d7dc63b180e40b00e57eb302503489c",
+  "experiment_config": {
+    "id": "exp04_hist_gradient_boosting",
+    "family": "tree_ensemble",
+    "hypothesis": "El boosting por histogramas con soporte nativo de categóricas iguala o mejora al Random Forest en recall y FPR, con un modelo mucho más pequeño y rápido.",
+    "change": "Igual que exp03 en datos, con HistGradientBoosting en lugar de Random Forest.",
+    "preprocessing": {
+      "categorical": "ordinal",
+      "numeric": "passthrough"
+    },
+    "model": {
+      "type": "hist_gradient_boosting",
+      "params": {
+        "learning_rate": 0.1,
+        "max_iter": 200,
+        "max_leaf_nodes": 31,
+        "early_stopping": false
+      }
+    }
+  }
+}

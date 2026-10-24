@@ -1,0 +1,61 @@
+{
+  "version": "v2",
+  "config_id": "exp04_hist_gradient_boosting",
+  "hf_repo_id": "yeico512/unsw-nb15-defiende-el-servidor",
+  "hf_url": "https://huggingface.co/yeico512/unsw-nb15-defiende-el-servidor",
+  "hf_revision": "424eef599abdce7630cfc369505487755b9763f4",
+  "hf_tag": "v2",
+  "hf_revision_url": "https://huggingface.co/yeico512/unsw-nb15-defiende-el-servidor/tree/424eef599abdce7630cfc369505487755b9763f4",
+  "hf_commit_date": "2026-10-23T20:43:42+00:00",
+  "files_sha256": {
+    "README.md": "9fe8ae93b8c2fa6a8f93d2631511d0a0371609433d3c828bb11faf02946b7662",
+    "model.skops": "562ba1bca9c762c4789a7dcdce4064508d7dc63b180e40b00e57eb302503489c",
+    "model_config.json": "db642b229be8ff50b4c38028493c483cd00f08aeb99f61b475984a2d7bf501e4",
+    "requirements.txt": "b681156d8a2bcd8f2e28a1fb378c0816359226b327fa549b32be59e751435593",
+    "val_metrics.json": "37094af7c9e5933c5c09c19a217d2361c8ec4e27b46e2c4c595e3cf5a4f951c2"
+  },
+  "model_sha256": "562ba1bca9c762c4789a7dcdce4064508d7dc63b180e40b00e57eb302503489c",
+  "hub_lfs_sha256_matches": true,
+  "threshold": 0.639,
+  "mlflow_run_id": "98001a529d484e79a7f6b0cf95dd962d",
+  "git_training_commit": "fecc3296fb838bbc6ec8296959021f9fbeb70cc4",
+  "config_file": "configs/experiments/exp04_hist_gradient_boosting.yaml",
+  "dvc_original_md5": "23b017bf013ca3cb801267d722c28c7a.dir",
+  "dvc_prepared_md5": "e2f660e3d42e641a595c423b0d2af0ed.dir",
+  "val_metrics_operating": {
+    "threshold": 0.639,
+    "recall_attack": 0.9560203695130677,
+    "precision_attack": 0.9761505736753899,
+    "fpr": 0.049910071942446045,
+    "f1_attack": 0.9659806089470998,
+    "f1_normal": 0.9296084469863617,
+    "macro_f1": 0.9477945279667308,
+    "accuracy": 0.9541297554542587,
+    "tp": 22716,
+    "fp": 555,
+    "tn": 10565,
+    "fn": 1045,
+    "n": 34881,
+    "undefined": []
+  },
+  "download_check": {
+    "cache": "temporal vacía",
+    "files_match": true,
+    "rows_compared": 200,
+    "max_abs_score_diff": 9.540979117872439e-17,
+    "labels_match": true,
+    "checked_at": "2026-10-23T20:49:59+00:00"
+  },
+  "card_updates": [
+    {
+      "hf_revision": "dd7f3fed3214b7a7d39b20fe067bacb926904c36",
+      "changed_files": [
+        "README.md"
+      ],
+      "readme_sha256": "12a81be3df7c245eeba4176c87888ff916a7932356512e6d21ddb6bb057ad284",
+      "model_sha256_at_revision": "562ba1bca9c762c4789a7dcdce4064508d7dc63b180e40b00e57eb302503489c",
+      "reason": "añade el resultado de la evaluación final en test",
+      "uploaded_at": "2026-10-23T20:54:29+00:00"
+    }
+  ]
+}

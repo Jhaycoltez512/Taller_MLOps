@@ -1,18 +1,22 @@
-preprocess:
-  # Elimina filas con el mismo vector de features y la misma etiqueta (se conserva la más antigua).
-  dedup: true
-  # Elimina los vectores de features que aparecen con label 0 y 1 a la vez.
-  drop_conflicting: true
-
-split:
+data:
   seed: 42
+  # Validación = un fold de StratifiedGroupKFold sobre el archivo de entrenamiento (~20 %).
+  n_folds: 5
+  val_fold: 0
   stratify: attack_cat
-  # Principal: sesión 1 -> train/val, sesión 2 -> test (evaluación temporal, con cambio de prior).
-  temporal:
-    train_session: 1
-    test_session: 2
-    val_size: 0.2
-  # Complementario: hold-out estratificado sobre ambas sesiones (sin drift).
-  holdout:
-    val_size: 0.15
-    test_size: 0.15
+  # Excluye de train/val los grupos de entradas idénticas con label 0 y 1 a la vez.
+  drop_contradictory: true
+
+train:
+  seed: 42
+  # Umbral: se elige con predicciones out-of-fold sobre train (StratifiedGroupKFold, mismos grupos),
+  # sin usar validación ni test. Regla: máximo recall de ataque con FPR <= max_fpr.
+  cv_folds: 5
+  threshold:
+    rule: max_recall_at_fpr
+    max_fpr: 0.05
+    grid_step: 0.001
+  reference_threshold: 0.5
+
+hub:
+  repo_id: yeico512/unsw-nb15-defiende-el-servidor

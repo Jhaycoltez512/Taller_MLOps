@@ -1,89 +1,66 @@
 schema: '2.0'
 stages:
-  eda_raw:
-    cmd: python -m src.eda.raw_eda
+  prepare:
+    cmd: python -m src.data.prepare
     deps:
-    - path: data/raw
+    - path: data/original
       hash: md5
-      md5: a74c1ac73f2eb45a6ccea09fd456c29f.dir
-      size: 720676688
-      nfiles: 11
-    - path: src/data/clean.py
+      md5: 23b017bf013ca3cb801267d722c28c7a.dir
+      size: 47674527
+      nfiles: 3
+    - path: src/data/prepare.py
       hash: md5
-      md5: dcc2c13eda7f6918379c4d8d8dc46585
-      size: 2371
-    - path: src/eda/raw_eda.py
+      md5: 967ee2753523d5a2d97c6c18f7a6f9af
+      size: 3450
+    - path: src/data/schema.py
       hash: md5
-      md5: 61890105b7677b0e95db293f553f4b8e
-      size: 28778
-    outs:
-    - path: reports/eda_raw
-      hash: md5
-      md5: 53c6eac2d30f8b1c53915556637b7a09.dir
-      size: 740649
-      nfiles: 28
-  preprocess:
-    cmd: python -m src.data.preprocess
-    deps:
-    - path: data/raw
-      hash: md5
-      md5: a74c1ac73f2eb45a6ccea09fd456c29f.dir
-      size: 720676688
-      nfiles: 11
-    - path: src/data/clean.py
-      hash: md5
-      md5: dcc2c13eda7f6918379c4d8d8dc46585
-      size: 2371
-    - path: src/data/preprocess.py
-      hash: md5
-      md5: cb5611077b01f5f4be2ebd23b73b8058
-      size: 3855
+      md5: 9b5542a3fca30fbc6cb42e421db19662
+      size: 2184
     params:
       params.yaml:
-        preprocess:
-          dedup: true
-          drop_conflicting: true
-    outs:
-    - path: data/processed
-      hash: md5
-      md5: b8edfb794224a307fd38c169baa889c9.dir
-      size: 159099945
-      nfiles: 1
-    - path: reports/data/preprocess.json
-      hash: md5
-      md5: 002f8d14cb7a2bdf36b16ece94e2dd70
-      size: 1254
-  split:
-    cmd: python -m src.data.split
-    deps:
-    - path: data/processed
-      hash: md5
-      md5: b8edfb794224a307fd38c169baa889c9.dir
-      size: 159099945
-      nfiles: 1
-    - path: src/data/split.py
-      hash: md5
-      md5: 656bc9875da7d9752b5c16b89257a1c6
-      size: 2478
-    params:
-      params.yaml:
-        split:
+        data:
           seed: 42
+          n_folds: 5
+          val_fold: 0
           stratify: attack_cat
-          temporal:
-            train_session: 1
-            test_session: 2
-            val_size: 0.2
-          holdout:
-            val_size: 0.15
-            test_size: 0.15
+          drop_contradictory: true
     outs:
-    - path: data/splits
+    - path: data/prepared
       hash: md5
-      md5: 7c175ef15b7539385f45a612d292bb26.dir
-      size: 326242256
-      nfiles: 6
-    - path: reports/data/splits.json
+      md5: e2f660e3d42e641a595c423b0d2af0ed.dir
+      size: 32438162
+      nfiles: 4
+  audit:
+    cmd: python -m src.data.audit
+    deps:
+    - path: data/original
       hash: md5
-      md5: b4de7e2f551dad6909872e41a7311e52
-      size: 2164
+      md5: 23b017bf013ca3cb801267d722c28c7a.dir
+      size: 47674527
+      nfiles: 3
+    - path: data/prepared
+      hash: md5
+      md5: e2f660e3d42e641a595c423b0d2af0ed.dir
+      size: 32438162
+      nfiles: 4
+    - path: src/data/audit.py
+      hash: md5
+      md5: f367a2fdbd841fdb7ff3778060c785ee
+      size: 7237
+    - path: src/data/schema.py
+      hash: md5
+      md5: 9b5542a3fca30fbc6cb42e421db19662
+      size: 2184
+    params:
+      params.yaml:
+        data:
+          seed: 42
+          n_folds: 5
+          val_fold: 0
+          stratify: attack_cat
+          drop_contradictory: true
+    outs:
+    - path: evidencias/auditoria.json
+      hash: md5
+      md5: f1548db8e2f7fe29ec9f04023a4c7533
+      size: 12000

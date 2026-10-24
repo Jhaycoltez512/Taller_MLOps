@@ -1,0 +1,18 @@
+id: exp03_random_forest
+family: tree_ensemble
+hypothesis: >-
+  Un bosque aleatorio captura interacciones no lineales entre variables y logra menor FPR
+  que la regresión logística con un recall similar.
+change: >-
+  Cambio de familia: Random Forest con codificación ordinal de las categóricas y numéricas sin
+  transformar. Capacidad limitada (150 árboles, min_samples_leaf=5) para un artefacto manejable.
+preprocessing:
+  categorical: ordinal
+  numeric: passthrough
+model:
+  type: random_forest
+  params:
+    n_estimators: 150
+    min_samples_leaf: 5
+    max_features: sqrt
+    n_jobs: -1

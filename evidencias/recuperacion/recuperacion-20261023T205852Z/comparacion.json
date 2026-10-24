@@ -1,0 +1,28 @@
+{
+  "tolerance_abs_score": 1e-09,
+  "versions": {
+    "v1": {
+      "hf_revision": "896ee3984613e60d2af1c5297163524216fec34b",
+      "rows": 30,
+      "same_row_ids": true,
+      "labels_match": true,
+      "max_abs_score_diff": 1.1102230246251565e-16,
+      "within_tolerance": true,
+      "predicted_attacks": 24,
+      "recovered_file_sha256": "db066bbf062b8b13ffebb3c357a4ff2a1f237ca716a8e6bc0bce0e3fc10093ea",
+      "passed": true
+    },
+    "v2": {
+      "hf_revision": "424eef599abdce7630cfc369505487755b9763f4",
+      "rows": 30,
+      "same_row_ids": true,
+      "labels_match": true,
+      "max_abs_score_diff": 1.1102230246251565e-16,
+      "within_tolerance": true,
+      "predicted_attacks": 25,
+      "recovered_file_sha256": "e709465682a7594c7e69554cae2c7373bdd2eed08f919ef87f9fa65aeacebeca",
+      "passed": true
+    }
+  },
+  "passed": true
+}

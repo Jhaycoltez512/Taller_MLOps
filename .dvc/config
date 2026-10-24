@@ -1,2 +1,6 @@
 [core]
     autostage = true
+    remote = origin
+['remote "origin"']
+    url = https://dagshub.com/Jhaycoltez512/Taller_MLOps.dvc
+    auth = basic

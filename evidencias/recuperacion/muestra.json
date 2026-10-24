@@ -1,0 +1,25 @@
+{
+  "rows": 30,
+  "seed": 42,
+  "per_attack_cat": 3,
+  "file": "evidencias/recuperacion/entrada.csv",
+  "sha256": "98a0667be879d825e15dc66c318c30da16715e88121ec6fae7d68f4ec4c35cd4",
+  "expected": {
+    "v1": {
+      "file": "evidencias/recuperacion/esperado_v1.csv",
+      "sha256": "a1a8212b43f9f7f0ceb43ec42b5d53ddf4ec38b4e59623263d5382e95abb6dae",
+      "source": "predicciones de validación del run original b1c856bd8de8457a94df5e64d12c0d58",
+      "hf_revision": "896ee3984613e60d2af1c5297163524216fec34b",
+      "model_sha256": "feb7d024b424fc072332e603ac394024bd7f297f2a2b2ab68b5630a2503d1771",
+      "threshold": 0.773
+    },
+    "v2": {
+      "file": "evidencias/recuperacion/esperado_v2.csv",
+      "sha256": "88e3d71d6b78324fae254b3b7ceed70ed7cf26013164753fcedeea637ab3df40",
+      "source": "predicciones de validación del run original 98001a529d484e79a7f6b0cf95dd962d",
+      "hf_revision": "424eef599abdce7630cfc369505487755b9763f4",
+      "model_sha256": "562ba1bca9c762c4789a7dcdce4064508d7dc63b180e40b00e57eb302503489c",
+      "threshold": 0.639
+    }
+  }
+}

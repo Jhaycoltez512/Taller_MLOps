@@ -1,0 +1,149 @@
+{
+  "version": "v2",
+  "config_id": "exp04_hist_gradient_boosting",
+  "evaluated_at": "2026-10-23T20:52:37+00:00",
+  "evaluation_git_commit": "0a4aa7d5fb94aefba6c9c78782f1903dda6ac4fd",
+  "selection_frozen_in_commit": "adcd9553e061cbeceda7d0c3fa5bf93a5f6ba34c",
+  "model": {
+    "hf_repo_id": "yeico512/unsw-nb15-defiende-el-servidor",
+    "hf_revision": "424eef599abdce7630cfc369505487755b9763f4",
+    "sha256": "562ba1bca9c762c4789a7dcdce4064508d7dc63b180e40b00e57eb302503489c",
+    "mlflow_run_id": "98001a529d484e79a7f6b0cf95dd962d",
+    "loaded_from": "Hugging Face por SHA, caché temporal vacía"
+  },
+  "dataset": {
+    "file": "data/original/UNSW_NB15_testing-set.csv",
+    "sha256": "734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559",
+    "prepared_file": "data/prepared/test.parquet",
+    "prepared_sha256": "70a092f264179184d7db2b263d4ea47089ca0d447d70a6bd738dfdcf927ff903",
+    "row_ids_sha256": "c1c632497a72132fc2cbbe0388d7b41562612111fe7806a0d71891523a3e563c",
+    "rows_in_published_file": 82332,
+    "rows_evaluated": 82332,
+    "dvc_prepared_md5": "e2f660e3d42e641a595c423b0d2af0ed.dir"
+  },
+  "positive_class": "1 = ataque",
+  "threshold": 0.639,
+  "decision_rule": "y_pred = 1 si score_attack >= threshold; score_attack = predict_proba[:, 1]",
+  "zero_division_policy": "una razón con denominador 0 vale 0.0 y se lista en metrics.undefined",
+  "confusion_matrix": {
+    "labels": [
+      "0 normal",
+      "1 ataque"
+    ],
+    "matrix_rows_true_cols_pred": [
+      [
+        30261,
+        6739
+      ],
+      [
+        1454,
+        43878
+      ]
+    ],
+    "tp": 43878,
+    "fp": 6739,
+    "tn": 30261,
+    "fn": 1454
+  },
+  "metrics": {
+    "recall_attack": 0.9679255272213889,
+    "precision_attack": 0.8668629116699923,
+    "fpr": 0.18213513513513513,
+    "macro_f1": 0.8976896391073508,
+    "f1_attack": 0.9146108870337368,
+    "f1_normal": 0.8807683911809647,
+    "accuracy": 0.9004882670164699,
+    "undefined": []
+  },
+  "threshold_free_metrics": {
+    "roc_auc": 0.9832494750441786,
+    "pr_auc": 0.9877297661733554
+  },
+  "validation_reference": {
+    "val_recall_attack": 0.9560203695130676,
+    "val_precision_attack": 0.97615057367539,
+    "val_fpr": 0.049910071942446,
+    "val_macro_f1": 0.9477945279667308
+  },
+  "detection_rate_by_attack_cat": {
+    "Analysis": {
+      "rows": 677,
+      "predicted_attack_rate": 0.9261447562776958
+    },
+    "Backdoor": {
+      "rows": 583,
+      "predicted_attack_rate": 0.9965694682675815
+    },
+    "DoS": {
+      "rows": 4089,
+      "predicted_attack_rate": 0.9980435314257765
+    },
+    "Exploits": {
+      "rows": 11132,
+      "predicted_attack_rate": 0.9890406036651096
+    },
+    "Fuzzers": {
+      "rows": 6062,
+      "predicted_attack_rate": 0.7933025404157044
+    },
+    "Generic": {
+      "rows": 18871,
+      "predicted_attack_rate": 0.9998410259127762
+    },
+    "Normal": {
+      "rows": 37000,
+      "predicted_attack_rate": 0.18213513513513513
+    },
+    "Reconnaissance": {
+      "rows": 3496,
+      "predicted_attack_rate": 0.9971395881006865
+    },
+    "Shellcode": {
+      "rows": 378,
+      "predicted_attack_rate": 0.9841269841269841
+    },
+    "Worms": {
+      "rows": 44,
+      "predicted_attack_rate": 1.0
+    }
+  },
+  "overlap_with_train": {
+    "note": "filas de test cuyo vector de entradas aparece en train (ver auditoria.json); se reportan por separado para limitar conclusiones",
+    "rows_seen_in_train": 6646,
+    "metrics_seen_in_train": {
+      "threshold": 0.639,
+      "recall_attack": 0.9982369534555712,
+      "precision_attack": 0.9668715846994536,
+      "fpr": 0.19917864476386038,
+      "f1_attack": 0.9823039555863982,
+      "f1_normal": 0.8843537414965987,
+      "macro_f1": 0.9333288485414984,
+      "accuracy": 0.9693048450195606,
+      "tp": 5662,
+      "fp": 194,
+      "tn": 780,
+      "fn": 10,
+      "n": 6646,
+      "undefined": []
+    },
+    "metrics_not_seen_in_train": {
+      "threshold": 0.639,
+      "recall_attack": 0.9635905194150277,
+      "precision_attack": 0.8537789593619446,
+      "fpr": 0.18167434630544607,
+      "f1_attack": 0.9053671479845062,
+      "f1_normal": 0.8806739257068602,
+      "macro_f1": 0.8930205368456832,
+      "accuracy": 0.8944454720820231,
+      "tp": 38216,
+      "fp": 6545,
+      "tn": 29481,
+      "fn": 1444,
+      "n": 75686,
+      "undefined": []
+    }
+  },
+  "outputs": {
+    "predictions_file": "evidencias/predicciones-test.csv"
+  }
+}

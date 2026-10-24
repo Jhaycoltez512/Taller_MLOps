@@ -1,0 +1,49 @@
+{
+  "version": "v1",
+  "config_id": "exp01_logreg_base",
+  "hf_repo_id": "yeico512/unsw-nb15-defiende-el-servidor",
+  "hf_url": "https://huggingface.co/yeico512/unsw-nb15-defiende-el-servidor",
+  "hf_revision": "896ee3984613e60d2af1c5297163524216fec34b",
+  "hf_tag": "v1",
+  "hf_revision_url": "https://huggingface.co/yeico512/unsw-nb15-defiende-el-servidor/tree/896ee3984613e60d2af1c5297163524216fec34b",
+  "hf_commit_date": "2026-10-23T20:37:05+00:00",
+  "files_sha256": {
+    "README.md": "622ebd2f5737ad6619424a71e566861ca68b0aa99838f2b49ccbc035332fcd12",
+    "model.skops": "feb7d024b424fc072332e603ac394024bd7f297f2a2b2ab68b5630a2503d1771",
+    "model_config.json": "7f96fd6a898664dbe37e0aa082425e880806023e8a1c758a16400018362b6790",
+    "requirements.txt": "b681156d8a2bcd8f2e28a1fb378c0816359226b327fa549b32be59e751435593",
+    "val_metrics.json": "74aa3c36de8dc890fc32c9e23ba72a2c80cc1b941baa57d5c23984da25f47396"
+  },
+  "model_sha256": "feb7d024b424fc072332e603ac394024bd7f297f2a2b2ab68b5630a2503d1771",
+  "hub_lfs_sha256_matches": true,
+  "threshold": 0.773,
+  "mlflow_run_id": "b1c856bd8de8457a94df5e64d12c0d58",
+  "git_training_commit": "fecc3296fb838bbc6ec8296959021f9fbeb70cc4",
+  "config_file": "configs/experiments/exp01_logreg_base.yaml",
+  "dvc_original_md5": "23b017bf013ca3cb801267d722c28c7a.dir",
+  "dvc_prepared_md5": "e2f660e3d42e641a595c423b0d2af0ed.dir",
+  "val_metrics_operating": {
+    "threshold": 0.773,
+    "recall_attack": 0.8955010311013846,
+    "precision_attack": 0.9723529680573961,
+    "fpr": 0.05440647482014389,
+    "f1_attack": 0.9323459819472438,
+    "f1_normal": 0.8719628493241562,
+    "macro_f1": 0.9021544156357,
+    "accuracy": 0.9114704280267194,
+    "tp": 21278,
+    "fp": 605,
+    "tn": 10515,
+    "fn": 2483,
+    "n": 34881,
+    "undefined": []
+  },
+  "download_check": {
+    "cache": "temporal vacía",
+    "files_match": true,
+    "rows_compared": 200,
+    "max_abs_score_diff": 1.1102230246251565e-16,
+    "labels_match": true,
+    "checked_at": "2026-10-23T20:49:47+00:00"
+  }
+}

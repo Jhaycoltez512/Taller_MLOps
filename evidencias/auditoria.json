@@ -1,0 +1,421 @@
+{
+  "source": {
+    "official_page": "https://research.unsw.edu.au/projects/unsw-nb15-dataset",
+    "share_link": "https://unsw-my.sharepoint.com/:f:/g/personal/z5025758_ad_unsw_edu_au/EnuQZZn3XuNBjgfcUu4DIVMBLCHyoLHqOswirpOQifr1ag?e=gKWkLS",
+    "downloaded_at": "2026-10-23T19:52:36+00:00",
+    "dvc_tracking_file": "data/original.dvc"
+  },
+  "files": {
+    "train": {
+      "file": "data/original/UNSW_NB15_training-set.csv",
+      "bytes": 32293018,
+      "sha256": "bec7dd5ec88dc2a0ccc7a07879d338395ed7421750f675fd0339e07dfe0648fa",
+      "sha256_expected_annex": "bec7dd5ec88dc2a0ccc7a07879d338395ed7421750f675fd0339e07dfe0648fa",
+      "sha256_matches_annex": true,
+      "sha256_matches_manifest": true,
+      "rows": 175341,
+      "columns": 45,
+      "dtypes": {
+        "id": "int64",
+        "dur": "float64",
+        "proto": "string",
+        "service": "string",
+        "state": "string",
+        "spkts": "int64",
+        "dpkts": "int64",
+        "sbytes": "int64",
+        "dbytes": "int64",
+        "rate": "float64",
+        "sttl": "int64",
+        "dttl": "int64",
+        "sload": "float64",
+        "dload": "float64",
+        "sloss": "int64",
+        "dloss": "int64",
+        "sinpkt": "float64",
+        "dinpkt": "float64",
+        "sjit": "float64",
+        "djit": "float64",
+        "swin": "int64",
+        "stcpb": "int64",
+        "dtcpb": "int64",
+        "dwin": "int64",
+        "tcprtt": "float64",
+        "synack": "float64",
+        "ackdat": "float64",
+        "smean": "int64",
+        "dmean": "int64",
+        "trans_depth": "int64",
+        "response_body_len": "int64",
+        "ct_srv_src": "int64",
+        "ct_state_ttl": "int64",
+        "ct_dst_ltm": "int64",
+        "ct_src_dport_ltm": "int64",
+        "ct_dst_sport_ltm": "int64",
+        "ct_dst_src_ltm": "int64",
+        "is_ftp_login": "int64",
+        "ct_ftp_cmd": "int64",
+        "ct_flw_http_mthd": "int64",
+        "ct_src_ltm": "int64",
+        "ct_srv_dst": "int64",
+        "is_sm_ips_ports": "int64",
+        "attack_cat": "string",
+        "label": "int64"
+      },
+      "id_is_row_number": true,
+      "label_counts": {
+        "0": 56000,
+        "1": 119341
+      },
+      "attack_rate": 0.680622,
+      "attack_cat_counts": {
+        "Normal": 56000,
+        "Generic": 40000,
+        "Exploits": 33393,
+        "Fuzzers": 18184,
+        "DoS": 12264,
+        "Reconnaissance": 10491,
+        "Analysis": 2000,
+        "Backdoor": 1746,
+        "Shellcode": 1133,
+        "Worms": 130
+      },
+      "attack_cat_consistent_with_label": true,
+      "missing_total": 0,
+      "missing_by_column": {},
+      "anomalies": {
+        "is_ftp_login_values_gt_1": 22
+      },
+      "duplicates_by_features": {
+        "definition": "filas cuyo vector de las 42 entradas (sin id, attack_cat ni label) ya apareció antes",
+        "duplicate_rows": 74301,
+        "duplicate_rate": 0.423751,
+        "unique_input_vectors": 101040,
+        "groups_with_more_than_one_row": 9748,
+        "largest_group_size": 415
+      },
+      "contradictory_groups": {
+        "definition": "grupos de entradas idénticas con label 0 y 1 a la vez",
+        "groups": 229,
+        "rows": 940
+      }
+    },
+    "test": {
+      "file": "data/original/UNSW_NB15_testing-set.csv",
+      "bytes": 15380800,
+      "sha256": "734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559",
+      "sha256_expected_annex": "734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559",
+      "sha256_matches_annex": true,
+      "sha256_matches_manifest": true,
+      "rows": 82332,
+      "columns": 45,
+      "dtypes": {
+        "id": "int64",
+        "dur": "float64",
+        "proto": "string",
+        "service": "string",
+        "state": "string",
+        "spkts": "int64",
+        "dpkts": "int64",
+        "sbytes": "int64",
+        "dbytes": "int64",
+        "rate": "float64",
+        "sttl": "int64",
+        "dttl": "int64",
+        "sload": "float64",
+        "dload": "float64",
+        "sloss": "int64",
+        "dloss": "int64",
+        "sinpkt": "float64",
+        "dinpkt": "float64",
+        "sjit": "float64",
+        "djit": "float64",
+        "swin": "int64",
+        "stcpb": "int64",
+        "dtcpb": "int64",
+        "dwin": "int64",
+        "tcprtt": "float64",
+        "synack": "float64",
+        "ackdat": "float64",
+        "smean": "int64",
+        "dmean": "int64",
+        "trans_depth": "int64",
+        "response_body_len": "int64",
+        "ct_srv_src": "int64",
+        "ct_state_ttl": "int64",
+        "ct_dst_ltm": "int64",
+        "ct_src_dport_ltm": "int64",
+        "ct_dst_sport_ltm": "int64",
+        "ct_dst_src_ltm": "int64",
+        "is_ftp_login": "int64",
+        "ct_ftp_cmd": "int64",
+        "ct_flw_http_mthd": "int64",
+        "ct_src_ltm": "int64",
+        "ct_srv_dst": "int64",
+        "is_sm_ips_ports": "int64",
+        "attack_cat": "string",
+        "label": "int64"
+      },
+      "id_is_row_number": true,
+      "label_counts": {
+        "0": 37000,
+        "1": 45332
+      },
+      "attack_rate": 0.5506,
+      "attack_cat_counts": {
+        "Normal": 37000,
+        "Generic": 18871,
+        "Exploits": 11132,
+        "Fuzzers": 6062,
+        "DoS": 4089,
+        "Reconnaissance": 3496,
+        "Analysis": 677,
+        "Backdoor": 583,
+        "Shellcode": 378,
+        "Worms": 44
+      },
+      "attack_cat_consistent_with_label": true,
+      "missing_total": 0,
+      "missing_by_column": {},
+      "anomalies": {
+        "is_ftp_login_values_gt_1": 4
+      },
+      "duplicates_by_features": {
+        "definition": "filas cuyo vector de las 42 entradas (sin id, attack_cat ni label) ya apareció antes",
+        "duplicate_rows": 28386,
+        "duplicate_rate": 0.344775,
+        "unique_input_vectors": 53946,
+        "groups_with_more_than_one_row": 6318,
+        "largest_group_size": 88
+      },
+      "contradictory_groups": {
+        "definition": "grupos de entradas idénticas con label 0 y 1 a la vez",
+        "groups": 6,
+        "rows": 14
+      }
+    }
+  },
+  "cleaning_policy": {
+    "stateless_rules_applied_to_all_splits": [
+      "categóricas ['proto', 'service', 'state']: espacios recortados",
+      "['is_ftp_login']: acotada a {0, 1} (variable declarada binaria)"
+    ],
+    "duplicates": "se conservan y se agrupan por vector de entradas (group_id = SHA-1 de las 42 entradas ya limpias); ningún grupo se reparte entre train y val",
+    "contradictory_groups": "se excluyen de train/val (etiqueta ambigua); el test se conserva completo",
+    "fitted_transformations": "codificación, imputación, escalado y selección de variables se ajustan dentro del Pipeline del modelo y solo con train",
+    "test_policy": "archivo de test completo, sin eliminar filas; solo se usa en la evaluación final de la versión congelada"
+  },
+  "features": {
+    "used": [
+      "dur",
+      "proto",
+      "service",
+      "state",
+      "spkts",
+      "dpkts",
+      "sbytes",
+      "dbytes",
+      "rate",
+      "sttl",
+      "dttl",
+      "sload",
+      "dload",
+      "sloss",
+      "dloss",
+      "sinpkt",
+      "dinpkt",
+      "sjit",
+      "djit",
+      "swin",
+      "stcpb",
+      "dtcpb",
+      "dwin",
+      "tcprtt",
+      "synack",
+      "ackdat",
+      "smean",
+      "dmean",
+      "trans_depth",
+      "response_body_len",
+      "ct_srv_src",
+      "ct_state_ttl",
+      "ct_dst_ltm",
+      "ct_src_dport_ltm",
+      "ct_dst_sport_ltm",
+      "ct_dst_src_ltm",
+      "is_ftp_login",
+      "ct_ftp_cmd",
+      "ct_flw_http_mthd",
+      "ct_src_ltm",
+      "ct_srv_dst",
+      "is_sm_ips_ports"
+    ],
+    "n_used": 42,
+    "categorical": [
+      "proto",
+      "service",
+      "state"
+    ],
+    "numeric": [
+      "dur",
+      "spkts",
+      "dpkts",
+      "sbytes",
+      "dbytes",
+      "rate",
+      "sttl",
+      "dttl",
+      "sload",
+      "dload",
+      "sloss",
+      "dloss",
+      "sinpkt",
+      "dinpkt",
+      "sjit",
+      "djit",
+      "swin",
+      "stcpb",
+      "dtcpb",
+      "dwin",
+      "tcprtt",
+      "synack",
+      "ackdat",
+      "smean",
+      "dmean",
+      "trans_depth",
+      "response_body_len",
+      "ct_srv_src",
+      "ct_state_ttl",
+      "ct_dst_ltm",
+      "ct_src_dport_ltm",
+      "ct_dst_sport_ltm",
+      "ct_dst_src_ltm",
+      "is_ftp_login",
+      "ct_ftp_cmd",
+      "ct_flw_http_mthd",
+      "ct_src_ltm",
+      "ct_srv_dst",
+      "is_sm_ips_ports"
+    ],
+    "excluded": {
+      "id": "identifica la fila; solo para auditoría y para relacionar predicciones",
+      "attack_cat": "revela la respuesta (Normal <=> label 0)",
+      "label": "variable objetivo"
+    },
+    "test_categorical_values_unseen_in_train": {
+      "proto": [],
+      "service": [],
+      "state": [
+        "ACC",
+        "CLO"
+      ]
+    }
+  },
+  "splits": {
+    "method": "StratifiedGroupKFold sobre el archivo de entrenamiento; un fold como validación",
+    "seed": 42,
+    "n_folds": 5,
+    "val_fold": 0,
+    "stratify": "attack_cat",
+    "group": "group_id",
+    "assignment_file": "data/prepared/split_assignment.csv",
+    "assignment_counts": {
+      "train": 139520,
+      "test": 82332,
+      "val": 34881,
+      "excluded_contradictory": 940
+    },
+    "parts": {
+      "train": {
+        "file": "data/prepared/train.parquet",
+        "rows": 139520,
+        "label_counts": {
+          "0": 44484,
+          "1": 95036
+        },
+        "attack_rate": 0.681164,
+        "attack_cat_counts": {
+          "Normal": 44484,
+          "Generic": 32000,
+          "Exploits": 26714,
+          "Fuzzers": 14113,
+          "DoS": 9811,
+          "Reconnaissance": 8392,
+          "Analysis": 1600,
+          "Backdoor": 1397,
+          "Shellcode": 905,
+          "Worms": 104
+        },
+        "unique_input_vectors": 80663,
+        "sha256_file": "eec9b6fff303a74b218c38f6bfea03237442ea91661e086a091fd8e139ba6243",
+        "sha256_row_ids": "447cbe7e56129ff7806421a2087d2ade9986817ac3874841ee783a1dce36fe65"
+      },
+      "val": {
+        "file": "data/prepared/val.parquet",
+        "rows": 34881,
+        "label_counts": {
+          "0": 11120,
+          "1": 23761
+        },
+        "attack_rate": 0.681202,
+        "attack_cat_counts": {
+          "Normal": 11120,
+          "Generic": 8000,
+          "Exploits": 6679,
+          "Fuzzers": 3528,
+          "DoS": 2453,
+          "Reconnaissance": 2099,
+          "Analysis": 400,
+          "Backdoor": 349,
+          "Shellcode": 227,
+          "Worms": 26
+        },
+        "unique_input_vectors": 20148,
+        "sha256_file": "ae325b9bd299a130c4e7581f82e1c7e8f046cde81f3acca516c9b17fb868062c",
+        "sha256_row_ids": "f44467114fd40193f74035228a19560c5a0f79b36ae22e0c69a8eceabd0c147d"
+      },
+      "test": {
+        "file": "data/prepared/test.parquet",
+        "rows": 82332,
+        "label_counts": {
+          "0": 37000,
+          "1": 45332
+        },
+        "attack_rate": 0.5506,
+        "attack_cat_counts": {
+          "Normal": 37000,
+          "Generic": 18871,
+          "Exploits": 11132,
+          "Fuzzers": 6062,
+          "DoS": 4089,
+          "Reconnaissance": 3496,
+          "Analysis": 677,
+          "Backdoor": 583,
+          "Shellcode": 378,
+          "Worms": 44
+        },
+        "unique_input_vectors": 53946,
+        "sha256_file": "70a092f264179184d7db2b263d4ea47089ca0d447d70a6bd738dfdcf927ff903",
+        "sha256_row_ids": "c1c632497a72132fc2cbbe0388d7b41562612111fe7806a0d71891523a3e563c"
+      }
+    }
+  },
+  "crosses": {
+    "train_val": {
+      "shared_input_vectors": 0,
+      "rows_in_val_with_vector_in_train": 0,
+      "share_of_val_rows": 0.0
+    },
+    "train_test": {
+      "shared_input_vectors": 985,
+      "rows_in_test_with_vector_in_train": 6646,
+      "share_of_test_rows": 0.080722
+    },
+    "val_test": {
+      "shared_input_vectors": 219,
+      "rows_in_test_with_vector_in_val": 1667,
+      "share_of_test_rows": 0.020247
+    },
+    "note": "Los cruces con test se reportan para limitar las conclusiones; no se eliminan filas de test."
+  }
+}

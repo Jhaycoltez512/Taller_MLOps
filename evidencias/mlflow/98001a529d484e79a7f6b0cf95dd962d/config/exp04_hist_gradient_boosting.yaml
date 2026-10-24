@@ -1,0 +1,16 @@
+id: exp04_hist_gradient_boosting
+family: tree_ensemble
+hypothesis: >-
+  El boosting por histogramas con soporte nativo de categóricas iguala o mejora al Random
+  Forest en recall y FPR, con un modelo mucho más pequeño y rápido.
+change: Igual que exp03 en datos, con HistGradientBoosting en lugar de Random Forest.
+preprocessing:
+  categorical: ordinal
+  numeric: passthrough
+model:
+  type: hist_gradient_boosting
+  params:
+    learning_rate: 0.1
+    max_iter: 200
+    max_leaf_nodes: 31
+    early_stopping: false

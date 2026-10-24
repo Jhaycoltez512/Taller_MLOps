@@ -1,0 +1,17 @@
+# Conclusión de validación de cada configuración (solo validación; el test no se ha usado).
+# src/models/export_mlflow.py la copia en la columna validation_conclusion de experimentos.csv.
+exp01_logreg_base: >-
+  Referencia funcional. Con el umbral OOF (0.773) logra recall 0.896 con FPR 5.4 % y macro-F1
+  0.902; con 0.5 la FPR sería 18 %, inaceptable para el equipo. Hipótesis confirmada en parte:
+  es una base razonable, pero falla sobre todo en Fuzzers (55 % detectado), Analysis y Shellcode.
+exp02_logreg_log1p: >-
+  log1p mejora al modelo lineal con la misma FPR (5.1 %): recall 0.913 (+1.8 pp) y macro-F1
+  0.916, con mejor detección de Reconnaissance y Shellcode. Hipótesis confirmada, pero el límite
+  lineal persiste: Fuzzers sigue en 55 %.
+exp03_random_forest: >-
+  El cambio de familia da el mayor salto: recall 0.953 con FPR 5.1 % y macro-F1 0.945; Fuzzers
+  sube a 72 %. Hipótesis confirmada. Costo: artefacto de 52 MB.
+exp04_hist_gradient_boosting: >-
+  Iguala o mejora al Random Forest en todo: recall 0.956, FPR 5.0 %, macro-F1 0.948, mejores
+  ROC-AUC y PR-AUC, con un modelo de 2.2 MB que se entrena en 3 s. Hipótesis confirmada; la
+  ventaja sobre el RF en recall es pequeña (+0.35 pp).
