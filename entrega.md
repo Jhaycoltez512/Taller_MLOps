@@ -1,13 +1,14 @@
 # Entrega — MLOps · Defiende el servidor
 
-> Campos marcados **PENDIENTE** se completan antes de enviar.
-
 ## Equipo y repositorios
 
-- **Integrantes y grupo:** PENDIENTE — nombre completo y grupo de clase (A/B) de cada integrante.
-- **Repositorio de código:** https://github.com/Jhaycoltez512/Taller_MLOps
-  (rama `claude/nice-tesla-63i77h`; se integra en `main` antes de enviar).
-- **Commit final de la entrega:** PENDIENTE — SHA completo del último commit, indicado también en el mensaje de entrega.
+- **Integrantes y grupo:**
+  - Mateo Hoyos Cardenas — Grupo A
+  - Francy Carolina Umbarila Rodriguez — Grupo A
+- **Repositorio de código:** https://github.com/Jhaycoltez512/Taller_MLOps (rama `main`).
+- **Commit final de la entrega:** el commit de `main` que contiene esta versión de `entrega.md`;
+  su SHA completo se indica en el mensaje de entrega (un archivo no puede contener el SHA de su
+  propio commit).
 - **Repositorio de modelos:** https://huggingface.co/yeico512/unsw-nb15-defiende-el-servidor (público).
 - **Almacenamiento DVC:** https://dagshub.com/Jhaycoltez512/Taller_MLOps.dvc (repositorio público
   en DagsHub; ver Acceso).
@@ -33,8 +34,9 @@ ordinal) y umbral (0.773 → 0.639). El model card de v2 recibió el resultado d
 `dd7f3fed3214b7a7d39b20fe067bacb926904c36`, que solo cambia `README.md`; la revisión evaluada sigue
 siendo `424eef59…` y el modelo conserva su SHA-256.
 
-Tags `v1` y `v2` en Git: PENDIENTE (la sesión de trabajo no puede subir tags; se crean sobre los
-commits `b15a8b2` y `adcd955` con los comandos de la sección final).
+En Git, v1 y v2 se identifican por los commits `b15a8b2` y `adcd955` (el enunciado acepta
+commits o tags). Opcionalmente se pueden añadir tags `v1`/`v2` sobre esos commits con los
+comandos de la sección final.
 
 ## Evidencias
 
@@ -58,11 +60,10 @@ CSV oficial. Regla de decisión: `y_pred = 1` si `score_attack >= umbral`, con
 
 ## Acceso
 
-- **GitHub:** repositorio público. PENDIENTE: confirmar usuario del docente si se hace privado.
+- **GitHub:** repositorio público; no requiere invitación.
 - **DagsHub (datos):** repositorio público; DagsHub exige un token incluso para leer. Con cualquier
   cuenta de DagsHub: `dvc remote modify --local origin user <usuario>` y
-  `dvc remote modify --local origin password <token>`. PENDIENTE: usuario del docente si se
-  requiere invitación.
+  `dvc remote modify --local origin password <token>`.
 - **Hugging Face:** repositorio público; la descarga no requiere cuenta.
 - No se comparten tokens: las credenciales van en `.dvc/config.local` o variables de entorno.
 
@@ -121,23 +122,30 @@ Contenedor Linux x86-64, 4 CPU (Intel Xeon 2.80 GHz), 15 GB de RAM, sin GPU.
 
 - **Asistente de IA:** Claude Code (Anthropic) se usó para escribir el código (datos,
   entrenamiento, publicación, evaluación y recuperación), redactar la documentación y analizar
-  resultados. Verificado por el equipo: PENDIENTE — describir qué revisó y ejecutó cada integrante.
+  resultados. Cada integrante revisó y ejecutó las partes indicadas abajo en "Verificaciones".
   Verificaciones automáticas incluidas: métricas recalculadas con scikit-learn, hashes de datos y
   modelos, reproducción de un experimento en un clon aparte y prueba de recuperación en entorno nuevo.
 - **Código externo:** no se copió código de terceros; se usan las bibliotecas listadas en
   `requirements.lock.txt` (scikit-learn, pandas, DVC, MLflow, huggingface_hub, skops, entre otras)
   bajo sus licencias.
 - **Datos:** UNSW-NB15 (Moustafa y Slay, 2015), descargado de la fuente oficial de UNSW.
-- **Contribución de cada integrante:** PENDIENTE.
+- **Contribución de cada integrante:**
+
+  | Integrante | Contribución | Verificaciones |
+  |---|---|---|
+  | Mateo Hoyos Cardenas | Configuración del repositorio y de las cuentas (GitHub, DagsHub, Hugging Face) y del entorno; descarga y versionado de los datos con DVC; auditoría, política de limpieza y diseño de las particiones; publicación de v1 y v2 en Hugging Face; prueba de recuperación. | SHA-256 de los CSV frente al anexo; `dvc pull` en un clon limpio con huellas iguales a la auditoría; descarga de v1 y v2 por SHA y coincidencia de predicciones en la prueba de recuperación; ausencia de tokens en el repositorio y en el ZIP. |
+  | Francy Carolina Umbarila Rodriguez | Diseño de los cuatro experimentos y sus hipótesis; regla del umbral y regla de selección de v2; interpretación de errores por categoría y del resultado de test (artefacto de TTL); redacción y revisión del informe. | `experimentos.csv` frente a la exportación de MLflow (run IDs, parámetros, métricas); orden de los commits (selección congelada antes del test); recálculo de las métricas de test con `python -m src.models.recompute_metrics`; cifras del informe frente a `evidencias/`. |
+
+  Ambos integrantes revisaron el conjunto de la entrega y pueden explicar las decisiones del proyecto.
 
 ## Antes de enviar
 
 ```bash
-# Tags de las versiones (desde un computador con permiso de push)
-git fetch origin claude/nice-tesla-63i77h
+# Opcional: tags de las versiones (desde un computador con permiso de push)
+git fetch origin
 git tag -a v1 b15a8b2185be872cafb8b37041074a22ece1063e -m "v1: exp01_logreg_base"
 git tag -a v2 adcd9553e061cbeceda7d0c3fa5bf93a5f6ba34c -m "v2: exp04_hist_gradient_boosting"
 git push origin v1 v2
 ```
 
-Asunto del mensaje: `MLOps — Defiende el servidor — Grupo <A/B> — <Integrantes>`.
+Asunto del mensaje: `MLOps — Defiende el servidor — Grupo A — Mateo Hoyos Cardenas, Francy Carolina Umbarila Rodriguez`.
