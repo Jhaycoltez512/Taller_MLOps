@@ -2,9 +2,7 @@
 
 ## Equipo y repositorios
 
-- **Integrantes y grupo:**
-  - Mateo Hoyos Cardenas — Grupo A
-  - Francy Carolina Umbarila Rodriguez — Grupo A
+- **Integrante y grupo:** Mateo Hoyos Cárdenas — Grupo A (entrega individual).
 - **Repositorio de código:** https://github.com/Jhaycoltez512/Taller_MLOps (rama `main`).
 - **Commit final de la entrega:** el commit de `main` que contiene esta versión de `entrega.md`;
   su SHA completo se indica en el mensaje de entrega (un archivo no puede contener el SHA de su
@@ -122,21 +120,25 @@ Contenedor Linux x86-64, 4 CPU (Intel Xeon 2.80 GHz), 15 GB de RAM, sin GPU.
 
 - **Asistente de IA:** Claude Code (Anthropic) se usó para escribir el código (datos,
   entrenamiento, publicación, evaluación y recuperación), redactar la documentación y analizar
-  resultados. Cada integrante revisó y ejecutó las partes indicadas abajo en "Verificaciones".
+  resultados. El integrante revisó y ejecutó las verificaciones indicadas abajo.
   Verificaciones automáticas incluidas: métricas recalculadas con scikit-learn, hashes de datos y
   modelos, reproducción de un experimento en un clon aparte y prueba de recuperación en entorno nuevo.
 - **Código externo:** no se copió código de terceros; se usan las bibliotecas listadas en
   `requirements.lock.txt` (scikit-learn, pandas, DVC, MLflow, huggingface_hub, skops, entre otras)
   bajo sus licencias.
 - **Datos:** UNSW-NB15 (Moustafa y Slay, 2015), descargado de la fuente oficial de UNSW.
-- **Contribución de cada integrante:**
-
-  | Integrante | Contribución | Verificaciones |
-  |---|---|---|
-  | Mateo Hoyos Cardenas | Configuración del repositorio y de las cuentas (GitHub, DagsHub, Hugging Face) y del entorno; descarga y versionado de los datos con DVC; auditoría, política de limpieza y diseño de las particiones; publicación de v1 y v2 en Hugging Face; prueba de recuperación. | SHA-256 de los CSV frente al anexo; `dvc pull` en un clon limpio con huellas iguales a la auditoría; descarga de v1 y v2 por SHA y coincidencia de predicciones en la prueba de recuperación; ausencia de tokens en el repositorio y en el ZIP. |
-  | Francy Carolina Umbarila Rodriguez | Diseño de los cuatro experimentos y sus hipótesis; regla del umbral y regla de selección de v2; interpretación de errores por categoría y del resultado de test (artefacto de TTL); redacción y revisión del informe. | `experimentos.csv` frente a la exportación de MLflow (run IDs, parámetros, métricas); orden de los commits (selección congelada antes del test); recálculo de las métricas de test con `python -m src.models.recompute_metrics`; cifras del informe frente a `evidencias/`. |
-
-  Ambos integrantes revisaron el conjunto de la entrega y pueden explicar las decisiones del proyecto.
+- **Contribución:** trabajo individual de Mateo Hoyos Cárdenas.
+  - **Desarrollo:** configuración del repositorio, las cuentas (GitHub, DagsHub, Hugging Face) y
+    el entorno; descarga y versionado de los datos con DVC; auditoría, política de limpieza y
+    diseño de las particiones; diseño de los cuatro experimentos y sus hipótesis; regla del umbral
+    y regla de selección de v2; publicación de v1 y v2 en Hugging Face; interpretación de errores
+    y del resultado de test (artefacto de TTL); prueba de recuperación; informe.
+  - **Verificaciones:** SHA-256 de los CSV frente al anexo; `dvc pull` en un clon limpio con
+    huellas iguales a la auditoría; `experimentos.csv` frente a la exportación de MLflow (run IDs,
+    parámetros, métricas); orden de los commits (selección congelada antes del test); recálculo
+    de las métricas de test con `python -m src.models.recompute_metrics`; descarga de v1 y v2 por
+    SHA y coincidencia de predicciones en la prueba de recuperación; cifras del informe frente a
+    `evidencias/`; ausencia de tokens en el repositorio y en el ZIP.
 
 ## Antes de enviar
 
@@ -148,4 +150,4 @@ git tag -a v2 adcd9553e061cbeceda7d0c3fa5bf93a5f6ba34c -m "v2: exp04_hist_gradie
 git push origin v1 v2
 ```
 
-Asunto del mensaje: `MLOps — Defiende el servidor — Grupo A — Mateo Hoyos Cardenas, Francy Carolina Umbarila Rodriguez`.
+Asunto del mensaje: `MLOps — Defiende el servidor — Grupo A — Mateo Hoyos Cárdenas`.
